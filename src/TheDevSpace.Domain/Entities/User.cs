@@ -11,12 +11,14 @@ public class User : Entity
     public DateTime LastLogin { get; private set; }
     public Guid? WriterId { get; private set; }
     public Writer? Writer { get; private set; }
-    public List<ArticleStar> StarredArticles { get; private set; }
+    public IReadOnlyList<ArticleStar> StarredArticles => _starredArticles;
+    private List<ArticleStar> _starredArticles;
 
     public User(string email, string password)
     {
         Email = email;
         Password = password;
+        _starredArticles = new List<ArticleStar>();
 
         Validate();
     }
@@ -28,6 +30,7 @@ public class User : Entity
         Email = email;
         Password = password;
         WriterId = writerId;
+        _starredArticles = new List<ArticleStar>();
 
         Validate();
     }

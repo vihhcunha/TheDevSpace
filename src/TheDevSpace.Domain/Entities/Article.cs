@@ -9,8 +9,9 @@ public class Article : Entity
     public string Content { get; private set; }
     public Writer Writer { get; private set; }
     public Guid WriterId { get; private set; }
-    public List<ArticleStar> Stars { get; private set; }
     public DateTime Launch { get; private set; }
+    public IReadOnlyList<ArticleStar> Stars => _stars;
+    private List<ArticleStar> _stars;
 
     public Article(string title, string content, Guid writerId)
     {
@@ -19,6 +20,7 @@ public class Article : Entity
         WriterId = writerId;
         ArticleId = Guid.NewGuid();
         Launch = DateTime.Now;
+        _stars = new List<ArticleStar>();
 
         Validate();
     }
@@ -35,8 +37,8 @@ public class Article : Entity
     public void GiveStar(Guid userId)
     {
         if (Stars == null) 
-            Stars = new List<ArticleStar>();
+            _stars = new List<ArticleStar>();
 
-        Stars.Add(new ArticleStar(ArticleId, userId));
+        _stars.Add(new ArticleStar(ArticleId, userId));
     }
 }
