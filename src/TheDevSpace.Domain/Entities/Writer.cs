@@ -12,6 +12,8 @@ public class Writer : Entity
     public User User { get; private set; }
     public Guid UserId { get; private set; }
     public DateTime RegistrationDateTime { get; private set; }
+    public IReadOnlyList<Article> Articles => _articles;
+    private List<Article> _articles;
 
     public Writer(string name, int age, string description, string role, Guid userId)
     {
@@ -22,6 +24,7 @@ public class Writer : Entity
         Description = description;
         Role = role;
         UserId = userId;
+        _articles = new List<Article>();
 
         Validate();
     }
