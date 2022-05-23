@@ -10,6 +10,10 @@ public class TheDevSpaceContext : DbContext
     public DbSet<ArticleStar> ArticleStars { get; set; }
     public DbSet<User> Users { get; set; }
 
+    public TheDevSpaceContext() { }
+
+    public TheDevSpaceContext(DbContextOptions<TheDevSpaceContext> options) : base(options) { }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TheDevSpaceContext).Assembly);
