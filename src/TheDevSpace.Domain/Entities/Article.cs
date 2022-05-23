@@ -25,6 +25,8 @@ public class Article : Entity
         Validate();
     }
 
+    protected Article() { }
+
     public override void Validate()
     {
         if (Title.IsNullOrEmpty())

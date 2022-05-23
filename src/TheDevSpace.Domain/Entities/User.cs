@@ -35,6 +35,8 @@ public class User : Entity
         Validate();
     }
 
+    protected User() { }
+
     public override void Validate()
     {
         if (Email.IsNullOrEmpty())

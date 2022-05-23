@@ -16,4 +16,6 @@ public class ArticleStar
         UserId = userId;
         StarDateTime = DateTime.Now;
     }
+
+    protected ArticleStar() { }
 }

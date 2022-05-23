@@ -29,6 +29,8 @@ public class Writer : Entity
         Validate();
     }
 
+    protected Writer() { }
+
     public override void Validate()
     {
         if (Name.IsNullOrEmpty())
