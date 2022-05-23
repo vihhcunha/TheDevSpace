@@ -12,6 +12,7 @@ internal class ArticleMapping : IEntityTypeConfiguration<Article>
 
         builder.HasOne(a => a.Writer)
             .WithMany(w => w.Articles)
-            .HasForeignKey(a => a.WriterId);
+            .HasForeignKey(a => a.WriterId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
