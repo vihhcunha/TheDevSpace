@@ -1,9 +1,24 @@
-﻿namespace TheDevSpaceWebApp;
+﻿using Microsoft.EntityFrameworkCore;
+using TheDevSpace.Repository;
+
+namespace TheDevSpaceWebApp;
 
 public class Startup
 {
-    public void ConfigureServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services, IConfiguration config)
     {
+        var connectionString = config.GetConnectionString("TheDevSpaceConnectionString");
+
+        services.AddDbContext<TheDevSpaceContext>(c =>
+        {
+            c.UseSqlServer(connectionString,
+                sqlServer =>
+                {
+                    sqlServer.EnableRetryOnFailure();
+                });
+            c.LogTo(Console.WriteLine);
+            c.EnableDetailedErrors();
+        });
         services.AddControllersWithViews();
     }
 

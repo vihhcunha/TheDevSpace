@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TheDevSpace.Application\TheDevSpace.Application.csproj" />
+    <ProjectReference Include="..\TheDevSpace.Repository\TheDevSpace.Repository.csproj" />
+  </ItemGroup>
+
 </Project>
