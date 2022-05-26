@@ -3,7 +3,7 @@ using TheDevSpace.Domain.Entities;
 
 namespace TheDevSpace.Repository;
 
-public class TheDevSpaceContext : DbContext
+public class TheDevSpaceContext : DbContext, IUnitOfWork
 {
     public DbSet<Writer> Writers { get; set; }
     public DbSet<Article> Articles{ get; set; }
@@ -17,5 +17,15 @@ public class TheDevSpaceContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TheDevSpaceContext).Assembly);
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await base.SaveChangesAsync();
+    }
+
+    void IUnitOfWork.SaveChanges()
+    {
+        base.SaveChanges();
     }
 }
