@@ -16,9 +16,10 @@ public class UserRepository : Repository<User>, IUserRepository
 
     public async Task DeleteUser(Guid userId)
     {
-        var user = await GetById(userId);
+        var user = await GetUserWithStars(userId);
 
         _context.Users.Remove(user);
+        _context.ArticleStars.RemoveRange(user.StarredArticles);
     }
 
     public async Task<List<User>> GetAllUsers()
