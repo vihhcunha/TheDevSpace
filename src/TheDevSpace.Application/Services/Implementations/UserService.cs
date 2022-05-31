@@ -12,7 +12,7 @@ public class UserService : ServiceBase, IUserService
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
 
-    protected UserService(IValidationService validationService, IMapper mapper, IUserRepository userRepository) : base(validationService)
+    public UserService(IValidationService validationService, IMapper mapper, IUserRepository userRepository) : base(validationService)
     {
         _mapper = mapper;
         _userRepository = userRepository;

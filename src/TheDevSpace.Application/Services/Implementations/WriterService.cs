@@ -12,7 +12,7 @@ public class WriterService : ServiceBase, IWriterService
     private readonly IMapper _mapper;
     private readonly IWriterRepository _writerRepository;
 
-    protected WriterService(IValidationService validationService, IMapper mapper, IWriterRepository writerRepository) : base(validationService)
+    public WriterService(IValidationService validationService, IMapper mapper, IWriterRepository writerRepository) : base(validationService)
     {
         _mapper = mapper;
         _writerRepository = writerRepository;
