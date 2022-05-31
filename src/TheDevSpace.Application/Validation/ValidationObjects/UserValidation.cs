@@ -13,4 +13,3 @@ public class UserValidation : AbstractValidator<UserDto>
             .NotEmpty().WithMessage("The password must be filled");
     }
 }
-
