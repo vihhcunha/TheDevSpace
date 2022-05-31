@@ -10,17 +10,14 @@ namespace TheDevSpace.Application;
 public class ArticleService : ServiceBase, IArticleService
 {
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IArticleRepository _articleRepository;
 
     public ArticleService(
         IMapper mapper, 
-        IUnitOfWork unitOfWork, 
         IArticleRepository articleRepository, 
         IValidationService validationService) : base(validationService)
     {
         _mapper = mapper;
-        _unitOfWork = unitOfWork;
         _articleRepository = articleRepository;
     }
 
@@ -31,7 +28,7 @@ public class ArticleService : ServiceBase, IArticleService
 
         var article = new Article(articleDto.Title, articleDto.Content, articleDto.WriterId);
         await _articleRepository.AddArticle(article);
-        await _unitOfWork.SaveChangesAsync();
+        await _articleRepository.UnitOfWork.SaveChangesAsync();
     }
 
     public async Task AddStar(ArticleStarDto articleStarDto)
@@ -46,7 +43,7 @@ public class ArticleService : ServiceBase, IArticleService
 
         article.GiveStar(articleStarDto.UserId);
 
-        await _unitOfWork.SaveChangesAsync();
+        await _articleRepository.UnitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteArticle(Guid articleId)

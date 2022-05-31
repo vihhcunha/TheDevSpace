@@ -10,13 +10,11 @@ namespace TheDevSpace.Application;
 public class WriterService : ServiceBase, IWriterService
 {
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IWriterRepository _writerRepository;
 
-    protected WriterService(IValidationService validationService, IMapper mapper, IUnitOfWork unitOfWork, IWriterRepository writerRepository) : base(validationService)
+    protected WriterService(IValidationService validationService, IMapper mapper, IWriterRepository writerRepository) : base(validationService)
     {
         _mapper = mapper;
-        _unitOfWork = unitOfWork;
         _writerRepository = writerRepository;
     }
 
@@ -27,7 +25,7 @@ public class WriterService : ServiceBase, IWriterService
 
         var writer = new Writer(writerDto.Name, writerDto.Age, writerDto.Description, writerDto.Role, writerDto.UserId);
         await _writerRepository.AddWriter(writer);
-        await _unitOfWork.SaveChangesAsync();
+        await _writerRepository.UnitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteWriter(Guid writerId)
@@ -41,7 +39,7 @@ public class WriterService : ServiceBase, IWriterService
         } 
 
         await _writerRepository.DeleteWriter(writer);
-        await _unitOfWork.SaveChangesAsync();
+        await _writerRepository.UnitOfWork.SaveChangesAsync();
     }
 
     public async Task<List<WriterDto>> GetAllWriters()

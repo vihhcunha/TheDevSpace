@@ -10,13 +10,11 @@ namespace TheDevSpace.Application;
 public class UserService : ServiceBase, IUserService
 {
     private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IUserRepository _userRepository;
 
-    protected UserService(IValidationService validationService, IMapper mapper, IUnitOfWork unitOfWork, IUserRepository userRepository) : base(validationService)
+    protected UserService(IValidationService validationService, IMapper mapper, IUserRepository userRepository) : base(validationService)
     {
         _mapper = mapper;
-        _unitOfWork = unitOfWork;
         _userRepository = userRepository;
     }
 
@@ -36,13 +34,13 @@ public class UserService : ServiceBase, IUserService
         }
         
         await _userRepository.AddUser(user);
-        await _unitOfWork.SaveChangesAsync();
+        await _userRepository.UnitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteUser(Guid userId)
     {
         await _userRepository.DeleteUser(userId);
-        await _unitOfWork.SaveChangesAsync();
+        await _userRepository.UnitOfWork.SaveChangesAsync();
     }
 
     public async Task<List<UserDto>> GetAllUsers()
