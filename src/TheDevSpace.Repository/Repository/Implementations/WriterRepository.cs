@@ -21,6 +21,11 @@ public class WriterRepository : Repository<Writer>, IWriterRepository
         _context.Writers.Remove(writer);
     }
 
+    public async Task DeleteWriter(Writer writer)
+    {
+        _context.Writers.Remove(writer);
+    }
+
     public async Task<List<Writer>> GetAllWriters()
     {
         return await _context.Writers
@@ -40,10 +45,11 @@ public class WriterRepository : Repository<Writer>, IWriterRepository
             .FirstOrDefaultAsync(w => w.WriterId == writerId);
     }
 
-    public async Task<Writer> SearchWriterByName(string name)
+    public async Task<List<Writer>> SearchWriterByName(string name)
     {
         return await _context.Writers
             .AsNoTrackingWithIdentityResolution()
-            .FirstOrDefaultAsync(w => w.Name.Contains(name));
+            .Where(w => w.Name.Contains(name))
+            .ToListAsync();
     }
 }
