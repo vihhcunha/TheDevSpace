@@ -49,13 +49,13 @@ public class ArticleService : ServiceBase, IArticleService
     public async Task DeleteArticle(Guid articleId)
     {
         await _articleRepository.DeleteArticle(articleId);
-        await _unitOfWork.SaveChangesAsync();
+        await _articleRepository.UnitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteStar(Guid starId)
     {
         await _articleRepository.DeleteStar(starId);
-        await _unitOfWork.SaveChangesAsync();
+        await _articleRepository.UnitOfWork.SaveChangesAsync();
     }
 
     public async Task<List<ArticleDto>> GetAllArticles()
