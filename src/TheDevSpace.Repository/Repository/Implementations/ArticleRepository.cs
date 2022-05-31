@@ -19,8 +19,9 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
 
     public async Task DeleteArticle(Guid articleId)
     {
-        var article = await GetById(articleId);
+        var article = await GetArticleWithStars(articleId);
         _context.Articles.Remove(article);
+        _context.ArticleStars.RemoveRange(article.Stars);
     }
 
     public async Task DeleteStar(Guid starId)
@@ -31,7 +32,9 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
 
     public async Task<List<Article>> GetAllArticles()
     {
-        return await _context.Articles.ToListAsync();
+        return await _context.Articles
+            .AsNoTrackingWithIdentityResolution()
+            .ToListAsync();
     }
 
     public async Task<List<Article>> GetArticlesByWriter(Guid writerId)
@@ -53,6 +56,9 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
 
     public async Task<List<Article>> SearchArticlesByTitle(string search)
     {
-        return await _context.Articles.Where(a => a.Title.Contains(search)).ToListAsync();
+        return await _context.Articles
+            .Where(a => a.Title.Contains(search))
+            .AsNoTrackingWithIdentityResolution()
+            .ToListAsync();
     }
 }

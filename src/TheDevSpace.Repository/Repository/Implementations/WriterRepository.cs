@@ -23,7 +23,9 @@ public class WriterRepository : Repository<Writer>, IWriterRepository
 
     public async Task<List<Writer>> GetAllWriters()
     {
-        return await _context.Writers.ToListAsync();
+        return await _context.Writers
+            .AsNoTrackingWithIdentityResolution()
+            .ToListAsync();
     }
 
     public async Task<Writer> GetWriterByName(string name)
@@ -40,6 +42,8 @@ public class WriterRepository : Repository<Writer>, IWriterRepository
 
     public async Task<Writer> SearchWriterByName(string name)
     {
-        return await _context.Writers.FirstOrDefaultAsync(w => w.Name.Contains(name));
+        return await _context.Writers
+            .AsNoTrackingWithIdentityResolution()
+            .FirstOrDefaultAsync(w => w.Name.Contains(name));
     }
 }

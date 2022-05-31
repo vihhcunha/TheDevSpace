@@ -23,7 +23,9 @@ public class UserRepository : Repository<User>, IUserRepository
 
     public async Task<List<User>> GetAllUsers()
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Users
+            .AsNoTrackingWithIdentityResolution()
+            .ToListAsync();
     }
 
     public async Task<User> GetUserByEmail(string email)
