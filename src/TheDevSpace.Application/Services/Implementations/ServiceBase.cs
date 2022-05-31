@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using TheDevSpace.Application.ValidationService;
-using TheDevSpace.Domain.Entities;
 
 namespace TheDevSpace.Application;
 
