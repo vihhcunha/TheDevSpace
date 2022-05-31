@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TheDevSpace.Application.Mappings;
 using TheDevSpace.Repository;
+using TheDevSpaceWebApp.DI;
 
 namespace TheDevSpaceWebApp;
 
@@ -19,6 +21,9 @@ public class Startup
             c.LogTo(Console.WriteLine);
             c.EnableDetailedErrors();
         });
+
+        services.AddAutoMapper(typeof(MapperProfile));
+        services.ResolveServices();
         services.AddControllersWithViews();
     }
 
