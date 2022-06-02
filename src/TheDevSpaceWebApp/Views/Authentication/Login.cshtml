@@ -1,0 +1,24 @@
+﻿@using TheDevSpaceWebApp.ViewModels.Authentication
+
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="box-center-login">
+    <h2 class="text-center">Login</h2>
+    <form>
+        <div class="mb-3 padding-top-30px">
+            <input type="email" asp-for="Email" class="form-control input-dark" placeholder="E-mail">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3 padding-top-5px">
+            <input type="password" asp-for="Password" class="form-control input-dark" placeholder="Password">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="padding-top-30px padding-bottom-20px">
+            <button type="submit" class="btn primary-color-button width-100-perc">Login</button>
+        </div>
+    </form>
+    <a asp-action="Register" class="text-color-default">Don't have an account yet? Create here.</a>
+</div>

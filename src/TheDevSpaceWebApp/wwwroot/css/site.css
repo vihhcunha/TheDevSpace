@@ -1,18 +1,143 @@
-html {
-  font-size: 14px;
+:root {
+    --background-color: #1b1b1b;
+    --background-color-nav: #0e0e0e;
+    --text-color: #bfbfbf;
+    --text-color-hover: #8f8f8f;
+    --primary-color: #518ff6;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+html
+{
+    position: relative;
+    min-height: 100%;
+    font-size: 14px;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+}
+
+.primary-color{
+    color: var(--primary-color);
+}
+
+.primary-color-button {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+}
+
+.width-100-perc{
+    width: 100%;
+}
+
+.text-color-default {
+    color: var(--text-color);
+}
+
+.text-color-default:hover {
+    color: var(--text-color-hover);
+}
+
+.default-background-color {
+    background-color: var(--background-color-nav);
+}
+
+.custom-navbar {
+    background-color: var(--background-color-nav);
+    color: var(--text-color);
+    box-shadow: 0px 0px 5px #3b3b3b;
+}
+
+.custom-footer {
+    background-color: var(--background-color-nav);
+    color: var(--text-color);
+    box-shadow: 0px 0px 5px #3b3b3b;
+}
+
+.box-center-login {
+    padding: 70px 60px;
+    background-color: #121212;
+    width: 35vw;
+    box-shadow: 0px 0px 5px #282828;
+    border-radius: 0.375rem;
+    margin: 0 auto;
+    margin-top: 80px;
+}
+
+.input-dark {
+    background-color: #2f2f2f;
+    border:none;
+}
+
+    .input-dark:focus {
+        background-color: #424242;
+        border: 1px solid #393939;
+        box-shadow: 0px 0px 2px #747474;
+    }
+
+.padding-top-5px {
+    padding-top: 5px;
+}
+
+.padding-top-10px {
+    padding-top: 10px;
+}
+
+.padding-top-20px {
+    padding-top: 20px;
+}
+
+.padding-top-30px{
+    padding-top: 30px;
+}
+
+.padding-bottom-10px {
+    padding-bottom: 10px;
+}
+
+.padding-bottom-20px {
+    padding-bottom: 20px;
+}
+
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1350px) {
+    .box-center-login {
+        width: 60vw;
+    }
+}
+
+@media (max-width: 1024px) {
+    .box-center-login {
+        width: 55vw;
+    }
+}
+
+@media (max-width: 776px) {
+    .box-center-login {
+        width: 70vw;
+    }
+}
+
+@media (max-width: 550px) {
+    .box-center-login {
+        padding: 60px 40px;
+        width: 85vw;
+    }
+}
+
+@media (max-width: 450px) {
+    .box-center-login {
+        padding: 50px 30px;
+        width: 95vw;
+    }
 }
