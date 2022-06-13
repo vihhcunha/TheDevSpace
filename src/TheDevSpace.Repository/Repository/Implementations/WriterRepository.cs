@@ -33,23 +33,10 @@ public class WriterRepository : Repository<Writer>, IWriterRepository
             .ToListAsync();
     }
 
-    public async Task<Writer> GetWriterByName(string name)
-    {
-        return await _context.Writers.FirstOrDefaultAsync(w => w.Name == name);
-    }
-
     public async Task<Writer> GetWriterWithArticles(Guid writerId)
     {
         return await _context.Writers
             .Include(w => w.Articles)
             .FirstOrDefaultAsync(w => w.WriterId == writerId);
-    }
-
-    public async Task<List<Writer>> SearchWriterByName(string name)
-    {
-        return await _context.Writers
-            .AsNoTrackingWithIdentityResolution()
-            .Where(w => w.Name.Contains(name))
-            .ToListAsync();
     }
 }

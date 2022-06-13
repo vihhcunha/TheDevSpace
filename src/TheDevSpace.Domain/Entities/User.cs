@@ -6,6 +6,7 @@ public class User : Entity
 {
     public Guid UserId { get; private set; }
     public string Email { get; private set; }
+    public string Name { get; private set; }
     public string Password { get; private set; }
     public DateTime RegistrationDateTime { get; private set; }
     public DateTime LastLogin { get; private set; }
@@ -14,10 +15,11 @@ public class User : Entity
     public IReadOnlyList<ArticleStar> StarredArticles => _starredArticles;
     private List<ArticleStar> _starredArticles;
 
-    public User(string email, string password)
+    public User(string email, string password, string name)
     {
         Email = email;
         Password = password;
+        Name = name;
         _starredArticles = new List<ArticleStar>();
 
         Validate();
@@ -39,6 +41,9 @@ public class User : Entity
 
     public override void Validate()
     {
+        if (Name.IsNullOrEmpty())
+            throw new DomainException("You must set a name!");
+
         if (Email.IsNullOrEmpty())
             throw new DomainException("You must set a email!");
 

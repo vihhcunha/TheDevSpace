@@ -2,7 +2,6 @@
 using TheDevSpace.Application.Validation;
 using TheDevSpace.Application.ValidationService;
 using TheDevSpace.Domain.Entities;
-using TheDevSpace.Repository;
 using TheDevSpace.Repository.Repository;
 
 namespace TheDevSpace.Application;
@@ -23,7 +22,7 @@ public class WriterService : ServiceBase, IWriterService
         if (writerDto == null) throw new ArgumentNullException(nameof(writerDto));
         if (!ExecuteValidation(new WriterValidation(), writerDto)) return;
 
-        var writer = new Writer(writerDto.Name, writerDto.Age, writerDto.Description, writerDto.Role, writerDto.UserId);
+        var writer = new Writer(writerDto.Age, writerDto.Description, writerDto.Role, writerDto.UserId);
         await _writerRepository.AddWriter(writer);
         await _writerRepository.UnitOfWork.SaveChangesAsync();
     }
@@ -49,24 +48,10 @@ public class WriterService : ServiceBase, IWriterService
         return _mapper.Map<List<WriterDto>>(writers);
     }
 
-    public async Task<WriterDto> GetWriterByName(string name)
-    {
-        var writer = await _writerRepository.GetWriterByName(name);
-
-        return _mapper.Map<WriterDto>(writer);
-    }
-
     public async Task<WriterDto> GetWriterWithArticles(Guid writerId)
     {
         var writer = await _writerRepository.GetWriterWithArticles(writerId);
 
         return _mapper.Map<WriterDto>(writer);
-    }
-
-    public async Task<List<WriterDto>> SearchWriterByName(string name)
-    {
-        var writers = await _writerRepository.SearchWriterByName(name);
-
-        return _mapper.Map<List<WriterDto>>(writers);
     }
 }

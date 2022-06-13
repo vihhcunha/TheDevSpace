@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheDevSpace.Repository;
 
@@ -11,9 +12,10 @@ using TheDevSpace.Repository;
 namespace TheDevSpace.Repository.Migrations
 {
     [DbContext(typeof(TheDevSpaceContext))]
-    partial class TheDevSpaceContextModelSnapshot : ModelSnapshot
+    [Migration("20220613213957_AlterNameToUser")]
+    partial class AlterNameToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

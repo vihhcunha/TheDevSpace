@@ -30,7 +30,7 @@ public class UserService : ServiceBase, IUserService
         }
         else
         {
-            user = new User(userDto.Email, userDto.Password);
+            user = new User(userDto.Email, userDto.Password, userDto.Name);
         }
         
         await _userRepository.AddUser(user);

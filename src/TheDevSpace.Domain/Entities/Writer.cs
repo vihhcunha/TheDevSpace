@@ -5,7 +5,6 @@ namespace TheDevSpace.Domain.Entities;
 public class Writer : Entity
 {
     public Guid WriterId { get; private set; }
-    public string Name { get; private set; }
     public int Age { get; private set; }
     public string Description { get; private set; }
     public string Role { get; private set; }
@@ -15,11 +14,10 @@ public class Writer : Entity
     public IReadOnlyList<Article> Articles => _articles;
     private List<Article> _articles;
 
-    public Writer(string name, int age, string description, string role, Guid userId)
+    public Writer(int age, string description, string role, Guid userId)
     {
         WriterId = Guid.NewGuid();
         RegistrationDateTime = DateTime.Now;
-        Name = name;
         Age = age;
         Description = description;
         Role = role;
@@ -33,9 +31,6 @@ public class Writer : Entity
 
     public override void Validate()
     {
-        if (Name.IsNullOrEmpty())
-            throw new DomainException("You must set a name!");
-
         if (Description.IsNullOrEmpty())
             throw new DomainException("You must set a description!");
 

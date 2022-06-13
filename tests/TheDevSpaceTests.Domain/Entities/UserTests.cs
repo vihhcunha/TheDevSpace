@@ -13,15 +13,17 @@ public class UserTests
         //Arrange
         var faker = new Faker();
 
+        var name = faker.Person.FullName;
         var email = faker.Internet.Email();
         var password = faker.Internet.Password();
 
         //Act
-        var user = new User(email, password);
+        var user = new User(email, password, name);
 
         // Assert
         Assert.IsType<Guid>(user.UserId);
         Assert.IsType<DateTime>(user.RegistrationDateTime);
+        Assert.Equal(name, user.Name);
         Assert.Equal(email, user.Email);
         Assert.Equal(password, user.Password);
     }
@@ -31,7 +33,15 @@ public class UserTests
     public void UserTests_BuildUserObjectWithoutEmail_ShouldThrowError()
     {
         //Arrange, act & assert
-        Assert.Throws<DomainException>(() => new User("", "Random"));
+        Assert.Throws<DomainException>(() => new User("", "Random", "Vinicius"));
+    }
+
+    [Fact(DisplayName = "Build user object - without name")]
+    [Trait("Category", "Domain.User")]
+    public void UserTests_BuildUserObjectWithoutName_ShouldThrowError()
+    {
+        //Arrange, act & assert
+        Assert.Throws<DomainException>(() => new User("vinicius2010.cunha@hotmail.com", "Random", ""));
     }
 
     [Fact(DisplayName = "Build user object - with invalid email")]
@@ -39,7 +49,7 @@ public class UserTests
     public void UserTests_BuildUserObjectWithInvalidEmail_ShouldThrowError()
     {
         //Arrange, act & assert
-        Assert.Throws<DomainException>(() => new User("aaa", "Random"));
-        Assert.Throws<DomainException>(() => new User("aaa.aaa", "Random"));
+        Assert.Throws<DomainException>(() => new User("aaa", "Random", "Vinicius"));
+        Assert.Throws<DomainException>(() => new User("aaa.aaa", "Random", "Vinicius"));
     }
 }
