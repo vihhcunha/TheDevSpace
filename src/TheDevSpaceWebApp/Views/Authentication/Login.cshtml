@@ -22,3 +22,7 @@
     </form>
     <a asp-action="Register" class="text-color-default">Don't have an account yet? Create here.</a>
 </div>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

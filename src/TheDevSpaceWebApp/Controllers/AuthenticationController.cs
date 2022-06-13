@@ -9,5 +9,11 @@ namespace TheDevSpaceWebApp.Controllers
         {
             return View();
         }
+
+        [HttpGet("Auth/Register")]
+        public IActionResult Register()
+        {
+            return View();
+        }
     }
 }
