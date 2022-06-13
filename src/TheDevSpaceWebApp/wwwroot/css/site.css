@@ -70,13 +70,15 @@ body {
 
 .input-dark {
     background-color: #2f2f2f;
-    border:none;
+    border: none;
+    color: var(--text-color);
 }
 
     .input-dark:focus {
         background-color: #424242;
         border: 1px solid #393939;
         box-shadow: 0px 0px 2px #747474;
+        color: var(--text-color);
     }
 
 .padding-top-5px {
