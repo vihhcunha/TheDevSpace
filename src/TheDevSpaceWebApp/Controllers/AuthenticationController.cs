@@ -41,8 +41,7 @@ namespace TheDevSpaceWebApp.Controllers
             });
 
             if (IsInvalidOperation()) return View(registerViewModel);
-            // Authenticate User
-            // Encrypt password
+            //TODO - Authenticate User
 
             return RedirectToAction("Register", "Writer");
         }

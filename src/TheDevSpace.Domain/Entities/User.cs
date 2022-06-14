@@ -17,6 +17,8 @@ public class User : Entity
 
     public User(string email, string password, string name)
     {
+        UserId = Guid.NewGuid();
+        RegistrationDateTime = DateTime.Now;
         Email = email;
         Password = password;
         Name = name;

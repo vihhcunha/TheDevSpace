@@ -2,6 +2,7 @@
 using TheDevSpace.Application.Mappings;
 using TheDevSpace.Repository;
 using TheDevSpaceWebApp.DI;
+using TheDevSpace.Application;
 
 namespace TheDevSpaceWebApp;
 
@@ -10,6 +11,9 @@ public class Startup
     public void ConfigureServices(IServiceCollection services, IConfiguration config)
     {
         var connectionString = config.GetConnectionString("TheDevSpaceConnectionString");
+
+        services.UseCustomHashPasswordBuilder()
+            .UseArgon2<UserDto>();
 
         services.AddDbContext<TheDevSpaceContext>(c =>
         {

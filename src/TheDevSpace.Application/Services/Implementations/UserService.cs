@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using TheDevSpace.Application.Validation;
 using TheDevSpace.Application.ValidationService;
 using TheDevSpace.Domain.Entities;
@@ -11,11 +12,13 @@ public class UserService : ServiceBase, IUserService
 {
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
+    private readonly IPasswordHasher<UserDto> _passwordHasher;
 
-    public UserService(IValidationService validationService, IMapper mapper, IUserRepository userRepository) : base(validationService)
+    public UserService(IValidationService validationService, IMapper mapper, IUserRepository userRepository, IPasswordHasher<UserDto> passwordHasher) : base(validationService)
     {
         _mapper = mapper;
         _userRepository = userRepository;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task AddUser(UserDto userDto)
@@ -23,14 +26,16 @@ public class UserService : ServiceBase, IUserService
         if (userDto == null) throw new ArgumentNullException(nameof(userDto));
         if (!ExecuteValidation(new UserValidation(), userDto)) return;
 
+        var passwordHash = _passwordHasher.HashPassword(userDto, userDto.Password);
+
         User user;
         if (userDto.WriterId.HasValue)
         {
-            user = new User(userDto.Email, userDto.Password, userDto.WriterId.Value);
+            user = new User(userDto.Email, passwordHash, userDto.WriterId.Value);
         }
         else
         {
-            user = new User(userDto.Email, userDto.Password, userDto.Name);
+            user = new User(userDto.Email, passwordHash, userDto.Name);
         }
         
         await _userRepository.AddUser(user);
