@@ -9,7 +9,8 @@ namespace TheDevSpaceWebApp.Extensions
         {
             foreach (var item in validations)
             {
-                modelState.AddModelError(item.Field, $"{item.Error} - {item.Description}");
+                var error = item.Description.IsNullOrEmpty() ? item.Error : $"{item.Error} - {item.Description}";
+                modelState.AddModelError(item.Field.IsNullOrEmpty() ? string.Empty : item.Field, error);
             }
         }
     }

@@ -2,6 +2,7 @@
 using TheDevSpace.Application.ValidationService;
 using TheDevSpace.Repository;
 using TheDevSpace.Repository.Repository;
+using TheDevSpaceWebApp.Services;
 
 namespace TheDevSpaceWebApp.DI;
 
@@ -20,5 +21,8 @@ public static class ServicesResolver
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IWriterService, WriterService>();
         services.AddScoped<IValidationService, ValidationService>();
+
+        // Web
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
     }
 }

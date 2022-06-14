@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TheDevSpace.Application;
 using TheDevSpace.Application.ValidationService;
+using TheDevSpaceWebApp.Services;
 using TheDevSpaceWebApp.ViewModels.Authentication;
 
 namespace TheDevSpaceWebApp.Controllers
@@ -8,18 +9,43 @@ namespace TheDevSpaceWebApp.Controllers
     public class AuthenticationController : BaseController
     {
         private readonly IUserService _userService;
-        private readonly IValidationService _validationService;
+        private readonly IAuthenticationService _loginService;
 
-        public AuthenticationController(IUserService userService, IValidationService validationService) : base(validationService)
+        public AuthenticationController(IUserService userService, IValidationService validationService, IAuthenticationService loginService) : base(validationService)
         {
             _userService = userService;
-            _validationService = validationService;
+            _loginService = loginService;
         }
 
         [HttpGet("Auth/Login")]
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost("Auth/Login")]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+            if (!ModelState.IsValid) return View(loginViewModel);
+
+            var userDto = await _userService.LoginUser(new UserDto
+            {
+                Email = loginViewModel.Email,
+                Password = loginViewModel.Password
+            });
+
+            if (IsInvalidOperation() || userDto == null) return View(loginViewModel);
+
+            await _loginService.LoginAsync(userDto.UserId, userDto.Email, userDto.Name, userDto.WriterId);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet("Auth/Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _loginService.LogoutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet("Auth/Register")]

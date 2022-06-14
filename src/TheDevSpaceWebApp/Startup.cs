@@ -3,6 +3,7 @@ using TheDevSpace.Application.Mappings;
 using TheDevSpace.Repository;
 using TheDevSpaceWebApp.DI;
 using TheDevSpace.Application;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace TheDevSpaceWebApp;
 
@@ -12,6 +13,7 @@ public class Startup
     {
         var connectionString = config.GetConnectionString("TheDevSpaceConnectionString");
 
+        services.AddHttpContextAccessor();
         services.UseCustomHashPasswordBuilder()
             .UseArgon2<UserDto>();
 
@@ -29,6 +31,13 @@ public class Startup
         services.AddAutoMapper(typeof(MapperProfile));
         services.ResolveServices();
         services.AddControllersWithViews();
+
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(opt =>
+            {
+                opt.AccessDeniedPath = "/Auth/Login";
+                opt.LoginPath = "/Auth/Login";
+            });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -45,6 +54,7 @@ public class Startup
         app.UseRouting();
 
         app.UseAuthorization();
+        app.UseAuthentication();
 
         app.UseEndpoints(e =>
         {

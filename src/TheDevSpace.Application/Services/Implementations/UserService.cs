@@ -68,4 +68,26 @@ public class UserService : ServiceBase, IUserService
 
         return _mapper.Map<UserDto>(user);
     }
+
+    public async Task<UserDto> LoginUser(UserDto userDto)
+    {
+        if (userDto == null) throw new ArgumentNullException(nameof(userDto));
+        if (userDto.Email.IsNullOrEmpty()) throw new ArgumentNullException(nameof(userDto.Email));
+
+        var user = await _userRepository.GetUserByEmail(userDto.Email);
+
+        if (user == null)
+        {
+            Notificate("User or password invalid!");
+            return null;
+        }
+
+        if (_passwordHasher.VerifyHashedPassword(userDto, user.Password, userDto.Password) == PasswordVerificationResult.Failed)
+        {
+            Notificate("User or password invalid!");
+            return null;
+        }
+
+        return _mapper.Map<UserDto>(user);
+    }
 }

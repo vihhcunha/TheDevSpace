@@ -5,9 +5,13 @@
     ViewData["Title"] = "Login";
 }
 
+@section ToastsMessage{
+    @{await Html.RenderPartialAsync("_ToastsMessages");}
+}
+
 <div class="box-center-login">
     <h2 class="text-center">Login</h2>
-    <form>
+    <form method="post">
         <div class="mb-3 padding-top-30px">
             <input type="email" asp-for="Email" class="form-control input-dark" placeholder="E-mail">
             <span asp-validation-for="Email" class="text-danger"></span>

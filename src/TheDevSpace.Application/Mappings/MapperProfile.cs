@@ -9,7 +9,8 @@ public class MapperProfile : Profile
     {
         CreateMap<Article, ArticleDto>();
         CreateMap<ArticleStar, ArticleStarDto>();
-        CreateMap<User, UserDto>();
+        CreateMap<User, UserDto>()
+            .ForMember(nameof(User.Password), opt => opt.Ignore());
         CreateMap<Writer, WriterDto>();
     }
 }

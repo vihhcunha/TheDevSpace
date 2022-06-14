@@ -1,0 +1,32 @@
+﻿@{
+    Layout = null;
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    @foreach (var error in ViewData.ModelState.Where(ms => ms.Value.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid))
+    {
+        <div class="toast text-bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header text-bg-danger">
+                <strong class="me-auto">Wowww.. hold on there</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @error.Value.Errors.FirstOrDefault().ErrorMessage
+            </div>
+        </div>
+    }
+}
+<script>
+    const options = {
+        animation: true,
+        autohide: false,
+        delay: 1000
+    }
+    const toastElList = document.querySelectorAll('.toast')
+    const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, options))
+
+    if (toastList && toastElList) {
+        toastList.forEach(toast => toast.show());
+    }
+</script>
