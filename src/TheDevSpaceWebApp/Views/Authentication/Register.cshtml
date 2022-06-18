@@ -6,35 +6,81 @@
 }
 
 @section ToastsMessage{
-    @{await Html.RenderPartialAsync("_ToastsMessages");}
-}
+    @{
+        await Html.RenderPartialAsync("_ToastsMessages");
+    }
+    }
 
-<div class="box-center-login">
-    <h2 class="text-center">Register</h2>
-    <form method="post">
-        <div class="mb-3 padding-top-30px">
-            <input type="email" asp-for="Email" class="form-control input-dark" placeholder="E-mail">
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-        <div class="mb-3 padding-top-5px">
-            <input type="text" asp-for="Name" class="form-control input-dark" placeholder="Name">
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <div class="mb-3 padding-top-5px">
-            <input type="password" asp-for="Password" class="form-control input-dark" placeholder="Password">
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-        <div class="mb-3 padding-top-5px">
-            <input type="password" asp-for="ConfirmPassword" class="form-control input-dark" placeholder="Confirm password">
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-        <div class="padding-top-30px padding-bottom-20px">
-            <button type="submit" class="btn primary-color-button width-100-perc">Register</button>
-        </div>
-    </form>
-    <a asp-action="Login" class="text-color-default">Back to login</a>
-</div>
+    <div class="box-center">
+        <h2 class="text-center">Register</h2>
+        <form method="post" id="formRegisterUser">
+            <div class="mb-3 padding-top-30px">
+                <input type="email" asp-for="Email" class="form-control input-dark" placeholder="E-mail">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3 padding-top-5px">
+                <input type="text" asp-for="Name" class="form-control input-dark" placeholder="Name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3 padding-top-5px">
+                <input type="password" asp-for="Password" class="form-control input-dark" placeholder="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3 padding-top-5px">
+                <input type="password" asp-for="ConfirmPassword" class="form-control input-dark" placeholder="Confirm password">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="padding-top-30px padding-bottom-20px">
+                <button type="button" class="btn primary-color-button width-100-perc" data-bs-toggle="modal" data-bs-target="#modalShouldRedirectToRegisterWriter">
+                    Register
+                </button>
+            </div>
+        </form>
+        <a asp-action="Login" class="text-color-default">Back to login</a>
+    </div>
 
-@section Scripts{
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+    <script>
+        var form = document.getElementById('formRegisterUser');
+        var input = document.createElement('input');
+        input.setAttribute('name', 'RedirectToWriterRegistration');
+        input.setAttribute('type', "hidden");
+        form.appendChild(input);
+
+        function registerAndRedirectToWriter() {
+
+            input.setAttribute('value', true);
+
+            form.submit();
+        }
+
+        function register() {
+            input.setAttribute('value', false);
+
+            form.submit();
+        }
+    </script>
+
+    <div class="modal fade" id="modalShouldRedirectToRegisterWriter" tabindex="-1" aria-labelledby="modalShouldRedirectToRegisterWriter" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content default-background-color text-color-default">
+                <div class="modal-header border-bottom-grey">
+                    <h5 class="modal-title" id="modalShouldRedirectToRegisterWriterLabel">Register as a writer?</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Do you want register yourself as a writer?
+                </div>
+                <div class="modal-footer border-top-grey">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="register()">No, I don't</button>
+                    <button type="button" class="btn btn-primary" onclick="registerAndRedirectToWriter()">Yes, I do!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+

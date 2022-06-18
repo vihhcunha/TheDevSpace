@@ -1,0 +1,35 @@
+﻿@using TheDevSpaceWebApp.ViewModels.Writer
+@model RegisterWriterViewModel
+@{
+    ViewData["Title"] = "Register writer";
+}
+
+@section ToastsMessage{
+    @{ await Html.RenderPartialAsync("_ToastsMessages"); }
+}
+
+<div class="box-center">
+    <h2 class="text-center">Register writer</h2>
+    <form method="post">
+        <div class="mb-3 padding-top-30px">
+            <input type="number" asp-for="Age" class="form-control input-dark" placeholder="Age">
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+        <div class="mb-3 padding-top-5px">
+            <textarea asp-for="Description" class="form-control input-dark" placeholder="Tell us a little bit about you"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3 padding-top-5px">
+            <input type="text" asp-for="Role" class="form-control input-dark" placeholder="What is your role?">
+            <span asp-validation-for="Role" class="text-danger"></span>
+        </div>
+        <div class="padding-top-30px padding-bottom-20px">
+            <button type="submit" class="btn primary-color-button width-100-perc">Register</button>
+        </div>
+    </form>
+    <a asp-action="Index" asp-controller="Home" class="text-color-default">Cancel</a>
+</div>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

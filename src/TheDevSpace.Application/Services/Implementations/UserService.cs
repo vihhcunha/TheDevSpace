@@ -21,10 +21,13 @@ public class UserService : ServiceBase, IUserService
         _passwordHasher = passwordHasher;
     }
 
-    public async Task AddUser(UserDto userDto)
+    public async Task<UserDto> AddUser(UserDto userDto)
     {
         if (userDto == null) throw new ArgumentNullException(nameof(userDto));
-        if (!ExecuteValidation(new UserValidation(), userDto)) return;
+        if (!ExecuteValidation(new UserValidation(), userDto)) return null;
+
+        if (await _userRepository.GetUserByEmail(userDto.Email) != null) 
+            Notificate("This e-mail is in use. Choose another!");
 
         var passwordHash = _passwordHasher.HashPassword(userDto, userDto.Password);
 
@@ -40,6 +43,8 @@ public class UserService : ServiceBase, IUserService
         
         await _userRepository.AddUser(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
+
+        return _mapper.Map<UserDto>(user);
     }
 
     public async Task DeleteUser(Guid userId)

@@ -17,14 +17,16 @@ public class WriterService : ServiceBase, IWriterService
         _writerRepository = writerRepository;
     }
 
-    public async Task AddWriter(WriterDto writerDto)
+    public async Task<WriterDto> AddWriter(WriterDto writerDto)
     {
         if (writerDto == null) throw new ArgumentNullException(nameof(writerDto));
-        if (!ExecuteValidation(new WriterValidation(), writerDto)) return;
+        if (!ExecuteValidation(new WriterValidation(), writerDto)) return null;
 
         var writer = new Writer(writerDto.Age, writerDto.Description, writerDto.Role, writerDto.UserId);
         await _writerRepository.AddWriter(writer);
         await _writerRepository.UnitOfWork.SaveChangesAsync();
+
+        return _mapper.Map<WriterDto>(writer);
     }
 
     public async Task DeleteWriter(Guid writerId)

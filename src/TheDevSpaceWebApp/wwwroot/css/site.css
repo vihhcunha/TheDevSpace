@@ -58,7 +58,7 @@ body {
     box-shadow: 0px 0px 5px #3b3b3b;
 }
 
-.box-center-login {
+.box-center {
     padding: 70px 60px;
     background-color: #121212;
     width: 35vw;
@@ -105,6 +105,13 @@ body {
     padding-bottom: 20px;
 }
 
+.border-bottom-grey {
+    border-bottom: 1px solid #3b3b3b;
+}
+
+.border-top-grey {
+    border-top: 1px solid #3b3b3b;
+}
 
 @media (min-width: 768px) {
     html {
@@ -113,32 +120,32 @@ body {
 }
 
 @media (max-width: 1350px) {
-    .box-center-login {
+    .box-center {
         width: 60vw;
     }
 }
 
 @media (max-width: 1024px) {
-    .box-center-login {
+    .box-center {
         width: 55vw;
     }
 }
 
 @media (max-width: 776px) {
-    .box-center-login {
+    .box-center {
         width: 70vw;
     }
 }
 
 @media (max-width: 550px) {
-    .box-center-login {
+    .box-center {
         padding: 60px 40px;
         width: 85vw;
     }
 }
 
 @media (max-width: 450px) {
-    .box-center-login {
+    .box-center {
         padding: 50px 30px;
         width: 95vw;
     }

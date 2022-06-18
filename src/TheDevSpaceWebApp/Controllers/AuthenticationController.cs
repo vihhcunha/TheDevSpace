@@ -59,7 +59,7 @@ namespace TheDevSpaceWebApp.Controllers
         {
             if (!ModelState.IsValid) return View(registerViewModel);
 
-            await _userService.AddUser(new UserDto
+            var userDto = await _userService.AddUser(new UserDto
             {
                 Email = registerViewModel.Email,
                 Name = registerViewModel.Name,
@@ -67,9 +67,13 @@ namespace TheDevSpaceWebApp.Controllers
             });
 
             if (IsInvalidOperation()) return View(registerViewModel);
-            //TODO - Authenticate User
 
-            return RedirectToAction("Register", "Writer");
+            await _loginService.LoginAsync(userDto.UserId, userDto.Email, userDto.Name, userDto.WriterId);
+
+            if (registerViewModel.RedirectToWriterRegistration)
+                return RedirectToAction("Register", "Writer");
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
