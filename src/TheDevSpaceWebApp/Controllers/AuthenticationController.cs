@@ -9,12 +9,12 @@ namespace TheDevSpaceWebApp.Controllers
     public class AuthenticationController : BaseController
     {
         private readonly IUserService _userService;
-        private readonly IAuthenticationService _loginService;
+        private readonly IAuthenticationService _authenticationService;
 
         public AuthenticationController(IUserService userService, IValidationService validationService, IAuthenticationService loginService) : base(validationService)
         {
             _userService = userService;
-            _loginService = loginService;
+            _authenticationService = loginService;
         }
 
         [HttpGet("Auth/Login")]
@@ -36,7 +36,7 @@ namespace TheDevSpaceWebApp.Controllers
 
             if (IsInvalidOperation() || userDto == null) return View(loginViewModel);
 
-            await _loginService.LoginAsync(userDto.UserId, userDto.Email, userDto.Name, userDto.WriterId);
+            await _authenticationService.LoginAsync(userDto.UserId, userDto.Email, userDto.Name, userDto.Writer.WriterId);
 
             return RedirectToAction("Index", "Home");
         }
@@ -44,7 +44,7 @@ namespace TheDevSpaceWebApp.Controllers
         [HttpGet("Auth/Logout")]
         public async Task<IActionResult> Logout()
         {
-            await _loginService.LogoutAsync();
+            await _authenticationService.LogoutAsync();
             return RedirectToAction("Index", "Home");
         }
 
@@ -68,12 +68,54 @@ namespace TheDevSpaceWebApp.Controllers
 
             if (IsInvalidOperation()) return View(registerViewModel);
 
-            await _loginService.LoginAsync(userDto.UserId, userDto.Email, userDto.Name, userDto.WriterId);
+            await _authenticationService.LoginAsync(userDto.UserId, userDto.Email, userDto.Name, userDto.Writer?.WriterId);
 
             if (registerViewModel.RedirectToWriterRegistration)
                 return RedirectToAction("Register", "Writer");
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UserSettings()
+        {
+            var user = await _userService.GetUser(_authenticationService.UserId.GetValueOrDefault());
+            return View(new UserSettingsViewModel
+            {
+                UserId = user.UserId,
+                Email = user.Email,
+                Name = user.Name,
+                IsWriter = user.Writer != null,
+                Age = user.Writer?.Age,
+                Description = user.Writer?.Description,
+                WriterId = user.Writer?.WriterId,
+                Role = user.Writer?.Role
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UserSettings(UserSettingsViewModel userSettingsViewModel)
+        {
+            if (!ModelState.IsValid) return View(userSettingsViewModel);
+
+            await _userService.UpdateUser(new UserDto
+            {
+                UserId = userSettingsViewModel.UserId,
+                Email = userSettingsViewModel.Email,
+                Name = userSettingsViewModel.Name,
+                Password = userSettingsViewModel.Password,
+                Writer = new WriterDto
+                {
+                    Age = userSettingsViewModel.Age.GetValueOrDefault(),
+                    Description = userSettingsViewModel.Description,
+                    Role = userSettingsViewModel.Role,
+                    WriterId = userSettingsViewModel.WriterId.GetValueOrDefault()
+                }
+            });
+
+            AddValidationData();
+
+            return View(userSettingsViewModel);
         }
     }
 }

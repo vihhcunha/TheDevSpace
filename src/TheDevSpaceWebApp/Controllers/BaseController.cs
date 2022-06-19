@@ -15,8 +15,13 @@ namespace TheDevSpaceWebApp.Controllers
 
         public bool IsInvalidOperation()
         {
-            if (_validationService.HasError) ModelState.AddValidationData(_validationService.ValidationCollection);
+            AddValidationData();
             return _validationService.HasError;
+        }
+
+        protected void AddValidationData()
+        {
+            if (_validationService.HasError) ModelState.AddValidationData(_validationService.ValidationCollection);
         }
     }
 }

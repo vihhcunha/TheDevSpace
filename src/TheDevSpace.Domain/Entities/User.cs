@@ -10,7 +10,6 @@ public class User : Entity
     public string Password { get; private set; }
     public DateTime RegistrationDateTime { get; private set; }
     public DateTime LastLogin { get; private set; }
-    public Guid? WriterId { get; private set; }
     public Writer? Writer { get; private set; }
     public IReadOnlyList<ArticleStar> StarredArticles => _starredArticles;
     private List<ArticleStar> _starredArticles;
@@ -22,18 +21,6 @@ public class User : Entity
         Email = email;
         Password = password;
         Name = name;
-        _starredArticles = new List<ArticleStar>();
-
-        Validate();
-    }
-
-    public User(string email, string password, Guid writerId)
-    {
-        UserId = Guid.NewGuid();
-        RegistrationDateTime = DateTime.Now;
-        Email = email;
-        Password = password;
-        WriterId = writerId;
         _starredArticles = new List<ArticleStar>();
 
         Validate();
@@ -51,5 +38,21 @@ public class User : Entity
 
         if (!Email.IsValidEmailAddress())
             throw new DomainException("You must set a valid email!");
+    }
+
+    public void ChangePassword(string password)
+    {
+        if (password.IsNullOrEmpty())
+            throw new DomainException("Password is incorrect!");
+
+        Password = password;
+    }
+
+    public void UpdateName(string name)
+    {
+        if (Name.IsNullOrEmpty())
+            throw new DomainException("You must set a name!");
+
+        Name = name;
     }
 }

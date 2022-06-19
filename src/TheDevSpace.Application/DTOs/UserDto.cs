@@ -8,7 +8,6 @@ public class UserDto
     public string Name { get; set; }
     public DateTime RegistrationDateTime { get; set; }
     public DateTime LastLogin { get; set; }
-    public Guid? WriterId { get; set; }
     public WriterDto? Writer { get; set; }
     public List<ArticleStarDto> StarredArticles { get; set; }
 }

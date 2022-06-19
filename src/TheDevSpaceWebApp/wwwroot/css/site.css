@@ -44,6 +44,7 @@ body {
 
 .default-background-color {
     background-color: var(--background-color-nav);
+    color: var(--text-color);
 }
 
 .custom-navbar {
@@ -68,6 +69,12 @@ body {
     margin-top: 80px;
 }
 
+.default-container {
+    padding: 70px 60px;
+    background-color: #121212;
+    border-radius: 0.375rem;
+}
+
 .input-dark {
     background-color: #2f2f2f;
     border: none;
@@ -79,6 +86,10 @@ body {
         border: 1px solid #393939;
         box-shadow: 0px 0px 2px #747474;
         color: var(--text-color);
+    }
+
+    .input-dark:disabled {
+        background-color: #565656;
     }
 
 .padding-top-5px {
@@ -95,6 +106,10 @@ body {
 
 .padding-top-30px{
     padding-top: 30px;
+}
+
+.padding-top-40px {
+    padding-top: 40px;
 }
 
 .padding-bottom-10px {

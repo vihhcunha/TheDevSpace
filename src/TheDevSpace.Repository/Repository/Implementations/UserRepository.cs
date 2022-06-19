@@ -36,6 +36,13 @@ public class UserRepository : Repository<User>, IUserRepository
             .FirstOrDefaultAsync(u => u.Email == email);
     }
 
+    public async Task<User> GetUserWithWriter(Guid userId)
+    {
+        return await _context.Users
+            .Include(u => u.Writer)
+            .FirstOrDefaultAsync(u => u.UserId == userId);
+    }
+
     public async Task<User> GetUserWithStars(Guid userId)
     {
         return await _context.Users

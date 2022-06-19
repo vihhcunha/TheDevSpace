@@ -37,4 +37,13 @@ public class Writer : Entity
         if (Role.IsNullOrEmpty())
             throw new DomainException("You must set a role!");
     }
+
+    public void UpdateData(int age, string role, string description)
+    {
+        Validate();
+
+        Age = age;
+        Role = role;
+        Description = description;
+    }
 }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using TheDevSpace.Application.Validation;
 using TheDevSpace.Application.ValidationService;
 using TheDevSpace.Domain.Entities;
-using TheDevSpace.Repository;
 using TheDevSpace.Repository.Repository;
 
 namespace TheDevSpace.Application;
@@ -26,24 +25,41 @@ public class UserService : ServiceBase, IUserService
         if (userDto == null) throw new ArgumentNullException(nameof(userDto));
         if (!ExecuteValidation(new UserValidation(), userDto)) return null;
 
-        if (await _userRepository.GetUserByEmail(userDto.Email) != null) 
+        if (await _userRepository.GetUserByEmail(userDto.Email) != null)
             Notificate("This e-mail is in use. Choose another!");
 
         var passwordHash = _passwordHasher.HashPassword(userDto, userDto.Password);
+        var user = new User(userDto.Email, passwordHash, userDto.Name);
 
-        User user;
-        if (userDto.WriterId.HasValue)
-        {
-            user = new User(userDto.Email, passwordHash, userDto.WriterId.Value);
-        }
-        else
-        {
-            user = new User(userDto.Email, passwordHash, userDto.Name);
-        }
-        
         await _userRepository.AddUser(user);
         await _userRepository.UnitOfWork.SaveChangesAsync();
 
+        return _mapper.Map<UserDto>(user);
+    }
+
+    public async Task<UserDto> UpdateUser(UserDto userDto)
+    {
+        if (userDto == null) throw new ArgumentNullException(nameof(userDto));
+        if (!ExecuteValidation(new UserUpdateValidation(), userDto)) return null;
+
+        var user = await _userRepository.GetUserWithWriter(userDto.UserId);
+
+        if (!userDto.Password.IsNullOrEmpty())
+        {
+            var newUserHash = _passwordHasher.HashPassword(userDto, userDto.Password);
+
+            if (_passwordHasher.VerifyHashedPassword(userDto, user.Password, newUserHash) == PasswordVerificationResult.Failed)
+                user.ChangePassword(newUserHash);
+        }
+
+        user.UpdateName(userDto.Name);
+
+        if (user.Writer != null)
+        {
+            user.Writer.UpdateData(userDto.Writer.Age, userDto.Writer.Role, userDto.Writer.Description);
+        }
+
+        await _userRepository.UnitOfWork.SaveChangesAsync();
         return _mapper.Map<UserDto>(user);
     }
 
@@ -58,6 +74,13 @@ public class UserService : ServiceBase, IUserService
         var users = await _userRepository.GetAllUsers();
 
         return _mapper.Map<List<UserDto>>(users);
+    }
+
+    public async Task<UserDto> GetUser(Guid userId)
+    {
+        var user = await _userRepository.GetUserWithWriter(userId);
+
+        return _mapper.Map<UserDto>(user);
     }
 
     public async Task<UserDto> GetUserByEmail(string email)

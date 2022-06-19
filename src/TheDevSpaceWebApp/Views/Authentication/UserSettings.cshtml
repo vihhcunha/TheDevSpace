@@ -1,0 +1,77 @@
+﻿@model TheDevSpaceWebApp.ViewModels.Authentication.UserSettingsViewModel
+
+@{
+    ViewData["Title"] = "User settings";
+}
+
+@section ToastsMessage{
+    @{ await Html.RenderPartialAsync("_ToastsMessages"); }
+}
+
+<div class="container default-container">
+    <h2 class="text-center">User settings</h2>
+    <form method="post">
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="IsWriter" />
+        <input type="hidden" asp-for="Email" />
+
+        <div class="row">
+            <div class="col-12 padding-top-30px">
+                <label asp-for="Email"></label>
+                <input type="email" asp-for="Email" class="form-control input-dark" placeholder="E-mail" disabled>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="col-12 padding-top-20px">
+                <label asp-for="Name"></label>
+                <input type="text" asp-for="Name" class="form-control input-dark" placeholder="Name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-md-6 padding-top-20px">
+                <label asp-for="Password"></label>
+                <input type="password" asp-for="Password" class="form-control input-dark" placeholder="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6 padding-top-20px">
+                <label asp-for="ConfirmPassword"></label>
+                <input type="password" asp-for="ConfirmPassword" class="form-control input-dark" placeholder="Confirm password">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+
+        @if (Model.IsWriter)
+        {
+            <h3 class="text-center padding-top-40px">Writer</h3>
+            <input type="hidden" asp-for="WriterId">
+
+            <div class="row">
+                <div class="col-12 col-md-6 padding-top-20px">
+                    <label asp-for="Age"></label>
+                    <input type="number" asp-for="Age" class="form-control input-dark" placeholder="Age">
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-6 padding-top-20px">
+                    <label asp-for="Role"></label>
+                    <input type="text" asp-for="Role" class="form-control input-dark" placeholder="What is your role?">
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+                <div class="col-12 padding-top-20px">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-control input-dark" placeholder="Tell us a little bit about you"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+        }
+        <div class="padding-top-30px padding-bottom-20px">
+            <button type="submit" class="btn primary-color-button">Update</button>
+        </div>
+        @if (Model.IsWriter == false)
+        {
+            <a asp-action="Register" asp-controller="Writer" class="text-color-default">Want to be a writer? Click here.</a>
+        }
+    </form>
+</div>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
