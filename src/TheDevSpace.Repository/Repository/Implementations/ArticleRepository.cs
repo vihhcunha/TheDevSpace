@@ -34,6 +34,7 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
     {
         return await _context.Articles
             .AsNoTrackingWithIdentityResolution()
+            .OrderByDescending(a => a.Launch)
             .ToListAsync();
     }
 
@@ -44,6 +45,7 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
             .Include(a => a.Writer)
                 .ThenInclude(a => a.User)
             .Where(a => a.WriterId == writerId)
+            .OrderByDescending(a => a.Launch)
             .ToListAsync();
     }
 
@@ -54,6 +56,7 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
            .Include(a => a.Writer)
                .ThenInclude(a => a.User)
            .Where(a => a.WriterId == writerId && a.Title.Contains(search))
+           .OrderByDescending(a => a.Launch)
            .ToListAsync();
     }
 
@@ -76,6 +79,7 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
         return await _context.Articles
             .Where(a => a.Title.Contains(search))
             .AsNoTrackingWithIdentityResolution()
+            .OrderByDescending(a => a.Launch)
             .ToListAsync();
     }
 }
