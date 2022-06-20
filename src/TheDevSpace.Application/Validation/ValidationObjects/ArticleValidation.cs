@@ -12,6 +12,9 @@ public class ArticleValidation : AbstractValidator<ArticleDto>
         RuleFor(a => a.Content)
             .NotEmpty().WithMessage("The content must be filled");
 
+        RuleFor(a => a.Description)
+            .NotEmpty().WithMessage("The description must be filled");
+
         RuleFor(a => a.WriterId)
             .NotEqual(a => Guid.Empty).WithMessage("The writer must be filled");
     }

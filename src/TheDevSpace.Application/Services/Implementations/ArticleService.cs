@@ -26,7 +26,7 @@ public class ArticleService : ServiceBase, IArticleService
         if (articleDto == null) throw new ArgumentNullException(nameof(articleDto));
         if (!ExecuteValidation(new ArticleValidation(), articleDto)) return;
 
-        var article = new Article(articleDto.Title, articleDto.Content, articleDto.WriterId);
+        var article = new Article(articleDto.Title, articleDto.Content, articleDto.WriterId, articleDto.Description);
         await _articleRepository.AddArticle(article);
         await _articleRepository.UnitOfWork.SaveChangesAsync();
     }

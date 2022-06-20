@@ -15,10 +15,11 @@ public class ArticleTests
 
         var title = faker.Lorem.Sentence();
         var content = faker.Lorem.Text();
+        var description = faker.Lorem.Text();
         var writerId = Guid.NewGuid();
 
         //Act
-        var article = new Article(title, content, writerId);
+        var article = new Article(title, content, writerId, description);
 
         // Assert
         Assert.IsType<Guid>(article.ArticleId);
@@ -33,7 +34,7 @@ public class ArticleTests
     public void ArticleTests_BuildArticleObjectWithoutContent_ShouldThrowError()
     {
         //Arrange, act & assert
-        Assert.Throws<DomainException>(() => new Article("Random title", "", Guid.NewGuid()));
+        Assert.Throws<DomainException>(() => new Article("Random title", "", Guid.NewGuid(), "Random description"));
     }
 
     [Fact(DisplayName = "Build article object - without title")]
@@ -41,7 +42,15 @@ public class ArticleTests
     public void ArticleTests_BuildArticleObjectWithoutTitle_ShouldThrowError()
     {
         //Arrange, act & assert
-        Assert.Throws<DomainException>(() => new Article("", "Random content", Guid.NewGuid()));
+        Assert.Throws<DomainException>(() => new Article("", "Random content", Guid.NewGuid(), "Random description"));
+    }
+
+    [Fact(DisplayName = "Build article object - without description")]
+    [Trait("Category", "Domain.Article")]
+    public void ArticleTests_BuildArticleObjectWithoutDescription_ShouldThrowError()
+    {
+        //Arrange, act & assert
+        Assert.Throws<DomainException>(() => new Article("Random title", "Random content", Guid.NewGuid(), ""));
     }
 
     [Fact(DisplayName = "Give article star")]
@@ -53,8 +62,10 @@ public class ArticleTests
 
         var title = faker.Lorem.Sentence();
         var content = faker.Lorem.Text();
+        var description = faker.Lorem.Text();
         var writerId = Guid.NewGuid();
-        var article = new Article(title, content, writerId);
+
+        var article = new Article(title, content, writerId, description);
 
         //Act & Assert
         article.GiveStar(Guid.NewGuid());

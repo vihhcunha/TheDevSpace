@@ -6,6 +6,7 @@ public class Article : Entity
 {
     public Guid ArticleId { get; private set; }
     public string Title { get; private set; }
+    public string Description { get; private set; }
     public string Content { get; private set; }
     public Writer Writer { get; private set; }
     public Guid WriterId { get; private set; }
@@ -13,11 +14,12 @@ public class Article : Entity
     public IReadOnlyList<ArticleStar> Stars => _stars;
     private List<ArticleStar> _stars;
 
-    public Article(string title, string content, Guid writerId)
+    public Article(string title, string content, Guid writerId, string description)
     {
         Title = title;
         Content = content;
         WriterId = writerId;
+        Description = description;
         ArticleId = Guid.NewGuid();
         Launch = DateTime.Now;
         _stars = new List<ArticleStar>();
@@ -34,6 +36,9 @@ public class Article : Entity
 
         if (Content.IsNullOrEmpty())
             throw new DomainException("You must set a content!");
+
+        if (Description.IsNullOrEmpty())
+            throw new DomainException("You must set a description!");
     }
 
     public void GiveStar(Guid userId)
