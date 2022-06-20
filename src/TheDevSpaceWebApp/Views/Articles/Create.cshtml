@@ -1,0 +1,51 @@
+﻿@using TheDevSpaceWebApp.ViewModels.Article
+
+@model NewArticleViewModel
+@{
+    ViewData["Title"] = "Create article";
+}
+
+@section ToastsMessage{
+    @{
+        await Html.RenderPartialAsync("_ToastsMessages");
+    }
+}
+
+    <div class="container default-container">
+        <h2 class="text-center">New article</h2>
+        <form method="post">
+
+            <div class="row">
+                <div class="col-12 col-md-6 padding-top-30px">
+                    <input type="text" asp-for="Title" class="form-control input-dark" placeholder="Title">
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-6 padding-top-30px">
+                    <input type="text" asp-for="Description" class="form-control input-dark" placeholder="Description">
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 padding-top-20px">
+                    <textarea type="text" asp-for="Content" id="tiny" class="form-control input-dark" placeholder="Content"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="padding-top-30px padding-bottom-20px">
+                <button type="submit" class="btn primary-color-button">Save</button>
+            </div>
+        </form>
+    </div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="/tinymce/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#tiny'
+        });
+    </script>
+}

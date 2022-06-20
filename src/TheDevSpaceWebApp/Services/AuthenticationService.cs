@@ -24,6 +24,24 @@ namespace TheDevSpaceWebApp.Services
             } 
         }
 
+        public bool IsWriter
+        {
+            get
+            {
+                if (IsAuthenticated == false) return false;
+                return _contextAccessor.HttpContext.User.HasClaim(c => c.Type == "WriterId");
+            }
+        }
+
+        public Guid? WriterId
+        {
+            get
+            {
+                if (IsAuthenticated == false) return null;
+                return Guid.Parse(_contextAccessor.HttpContext.User.FindFirstValue(claimType: "WriterId"));
+            }
+        }
+
         public async Task LoginAsync(Guid userId, string email, string name, Guid? writerId = null)
         {
             var httpContext = _contextAccessor.HttpContext;
