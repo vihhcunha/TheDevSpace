@@ -132,4 +132,17 @@ public class ArticlesController : BaseController
         var articlesViewModel = ArticleViewModel.ArticleToArticleViewModel(article);
         return View(articlesViewModel);
     }
+
+    [HttpGet("Articles/Delete/{articleId}")]
+    [Authorize]
+    public async Task<IActionResult> Delete([FromRoute]Guid articleId)
+    {
+        if (articleId == Guid.Empty) return RedirectToAction("MyArticles");
+
+        await _articleService.DeleteArticle(articleId);
+
+        AddValidationData();
+
+        return RedirectToAction("MyArticles");
+    }
 }
