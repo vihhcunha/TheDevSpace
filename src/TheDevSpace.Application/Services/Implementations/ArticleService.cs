@@ -30,6 +30,18 @@ public class ArticleService : ServiceBase, IArticleService
         await _articleRepository.AddArticle(article);
         await _articleRepository.UnitOfWork.SaveChangesAsync();
     }
+    public async Task EditArticle(ArticleDto articleDto)
+    {
+        if (articleDto == null) throw new ArgumentNullException(nameof(articleDto));
+        if (!ExecuteValidation(new ArticleValidation(), articleDto)) return;
+
+        var article = await _articleRepository.GetById(articleDto.ArticleId);
+        if (article == null) throw new Exception("This article does not exists!");
+
+        article.UpdateData(articleDto.Title, articleDto.Description, articleDto.Content);
+
+        await _articleRepository.UnitOfWork.SaveChangesAsync();
+    }
 
     public async Task AddStar(ArticleStarDto articleStarDto)
     {

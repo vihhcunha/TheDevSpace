@@ -12,11 +12,15 @@
 <div class="padding-bottom-10px">
     @if (Model.WriterId == authenticationService.WriterId.GetValueOrDefault())
     {
-        <a asp-action="Edit" asp-controller="Articles" class="btn primary-color-button">
-            Edit article
+        <a asp-action="Edit" asp-controller="Articles" asp-route-articleId="@Model.ArticleId" class="btn btn-primary">
+            <span class="material-symbols-outlined" style="vertical-align: text-bottom">
+                Edit
+            </span>
         </a>
         <a asp-action="Edit" asp-controller="Articles" class="btn btn-danger">
-            Delete
+            <span class="material-symbols-outlined" style="vertical-align: text-bottom">
+                Delete
+            </span>
         </a>
     }
     <a asp-action="Star" asp-controller="Articles" class="btn btn-secondary">

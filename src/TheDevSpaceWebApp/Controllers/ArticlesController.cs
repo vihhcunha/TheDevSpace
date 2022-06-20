@@ -25,7 +25,7 @@ public class ArticlesController : BaseController
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> Create(NewArticleViewModel newArticleViewModel)
+    public async Task<IActionResult> Create(CreateEditArticleViewModel newArticleViewModel)
     {
         if (!ModelState.IsValid) return View(newArticleViewModel);
         if (_authenticationService.IsWriter == false)
@@ -45,6 +45,53 @@ public class ArticlesController : BaseController
         if (IsInvalidOperation()) return View(newArticleViewModel);
 
         return RedirectToAction("Index", "Home");
+    }
+
+    [Authorize()]
+    [HttpGet("Articles/Edit/{articleId}")]
+    public async Task<IActionResult> Edit([FromRoute] Guid articleId)
+    {
+        if (_authenticationService.IsWriter == false)
+        {
+            ModelState.AddModelError(String.Empty, "You are not a writer.");
+            return View();
+        }
+
+        var article = await _articleService.GetArticleWithStars(articleId);
+
+        return View(new CreateEditArticleViewModel
+        {
+            ArticleId = articleId,
+            Content = article.Content,
+            Description = article.Description,
+            Title = article.Title,
+            WriterId = article.WriterId
+        });
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Edit(CreateEditArticleViewModel newArticleViewModel)
+    {
+        if (!ModelState.IsValid) return View(newArticleViewModel);
+        if (_authenticationService.IsWriter == false)
+        {
+            ModelState.AddModelError(string.Empty, "You are not a writer, then you can't write a article!");
+            return View(newArticleViewModel);
+        }
+
+        await _articleService.EditArticle(new ArticleDto
+        {
+            Content = newArticleViewModel.Content,
+            Title = newArticleViewModel.Title,
+            WriterId = _authenticationService.WriterId.Value,
+            Description = newArticleViewModel.Description,
+            ArticleId = newArticleViewModel.ArticleId
+        });
+
+        if (IsInvalidOperation()) return View(newArticleViewModel);
+
+        return RedirectToAction("Article", "Articles", new { articleId = newArticleViewModel.ArticleId });
     }
 
     [Authorize]

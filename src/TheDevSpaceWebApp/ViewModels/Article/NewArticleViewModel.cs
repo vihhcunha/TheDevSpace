@@ -2,7 +2,7 @@
 
 namespace TheDevSpaceWebApp.ViewModels.Article;
 
-public class NewArticleViewModel
+public class CreateEditArticleViewModel
 {
     [Required(ErrorMessage = "You must set a title for this article!")]
     public string Title { get; set; }
@@ -13,4 +13,5 @@ public class NewArticleViewModel
     [Required(ErrorMessage = "You must set a description for this article!")]
     public string Description { get; set; }
     public Guid WriterId { get; set; }
+    public Guid ArticleId { get; set; }
 }

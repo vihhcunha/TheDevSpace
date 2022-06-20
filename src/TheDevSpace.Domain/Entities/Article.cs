@@ -48,4 +48,13 @@ public class Article : Entity
 
         _stars.Add(new ArticleStar(ArticleId, userId));
     }
+
+    public void UpdateData(string title, string description, string content)
+    {
+        Title = title;
+        Content = content;
+        Description = description;
+
+        Validate();
+    }
 }
