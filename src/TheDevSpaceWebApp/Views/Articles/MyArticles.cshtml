@@ -1,0 +1,38 @@
+﻿@using System.Globalization
+@using TheDevSpaceWebApp.ViewModels.Article
+
+@model List<ArticleViewModel>
+@{
+    ViewData["Title"] = "My articles";
+}
+
+<div class="container">
+    <h2 class="text-center">My articles</h2>
+
+    <div class="padding-top-30px">
+        <a asp-action="Create" asp-controller="Articles" class="btn primary-color-button">
+            Add article
+        </a>
+        @foreach (var article in Model)
+        {
+            <div class="default-card">
+                <a asp-action="Article" asp-controller="Articles" class="link-title">@article.Title</a>
+                -
+                <div style="display: inline">
+                    <span class="material-symbols-outlined" style="vertical-align: text-bottom">
+                        star
+                    </span>
+                    <span style="vertical-align: middle">
+                        @article.StarsCount
+                    </span>
+                </div>
+
+                <p style="font-size: 14px"><i>@article.Launch.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("en-USE"))</i></p>
+                <div style="padding-left: 10px; padding-top: 10px">
+                    <p><strong>Written by: </strong> @article.WriterName</p>
+                    <p>@article.Description</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

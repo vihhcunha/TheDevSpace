@@ -28,16 +28,16 @@ public class Startup
             c.EnableDetailedErrors();
         });
 
-        services.AddAutoMapper(typeof(MapperProfile));
-        services.ResolveServices();
-        services.AddControllersWithViews();
-
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(opt =>
             {
                 opt.AccessDeniedPath = "/Auth/Login";
                 opt.LoginPath = "/Auth/Login";
             });
+
+        services.AddAutoMapper(typeof(MapperProfile));
+        services.ResolveServices();
+        services.AddControllersWithViews();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -53,8 +53,8 @@ public class Startup
 
         app.UseRouting();
 
-        app.UseAuthorization();
         app.UseAuthentication();
+        app.UseAuthorization();
 
         app.UseEndpoints(e =>
         {

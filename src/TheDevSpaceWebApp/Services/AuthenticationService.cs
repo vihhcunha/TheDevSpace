@@ -49,7 +49,6 @@ namespace TheDevSpaceWebApp.Services
 
             var authProperties = new AuthenticationProperties
             {
-                IsPersistent = true,
                 IssuedUtc = DateTimeOffset.Now
             };
 

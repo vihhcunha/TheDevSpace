@@ -17,7 +17,7 @@ public class ArticlesController : BaseController
         _authenticationService = authenticationService;
     }
 
-    [Authorize]
+    [Authorize()]
     public IActionResult Create()
     {
         return View();
@@ -48,8 +48,26 @@ public class ArticlesController : BaseController
     }
 
     [Authorize]
-    public IActionResult MyArticles()
+    public async Task<IActionResult> MyArticles()
     {
-        return View();
+        if (_authenticationService.IsWriter == false)
+        {
+            ModelState.AddModelError(String.Empty, "You are not a writer.");
+            return View();
+        }
+
+        var articles = await _articleService.GetArticlesByWriter(_authenticationService.WriterId.Value);
+        var articlesViewModel = articles.Select(a => new ArticleViewModel
+        {
+            ArticleId = a.ArticleId,
+            Content = a.Content,
+            Description = a.Description,
+            Launch = a.Launch,
+            StarsCount = a.Stars.Count,
+            Title = a.Title,
+            WriterId = a.WriterId,
+            WriterName = a.Writer.User.Name
+        }).ToList();
+        return View(articlesViewModel);
     }
 }

@@ -39,7 +39,11 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
 
     public async Task<List<Article>> GetArticlesByWriter(Guid writerId)
     {
-        return await _context.Articles.Where(a => a.WriterId == writerId).ToListAsync();
+        return await _context.Articles
+            .Include(a => a.Stars)
+            .Include(a => a.Writer)
+                .ThenInclude(a => a.User)
+            .Where(a => a.WriterId == writerId).ToListAsync();
     }
 
     public async Task<ArticleStar> GetArticleStar(Guid articleStarId)
