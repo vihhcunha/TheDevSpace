@@ -72,6 +72,13 @@ public class ArticleService : ServiceBase, IArticleService
         return _mapper.Map<List<ArticleDto>>(articles);
     }
 
+    public async Task<List<ArticleDto>> GetArticlesByWriter(Guid writerId, string search)
+    {
+        var articles = await _articleRepository.GetArticlesByWriter(writerId, search);
+
+        return _mapper.Map<List<ArticleDto>>(articles);
+    }
+
     public async Task<ArticleStarDto> GetArticleStar(Guid articleStarId)
     {
         var star = await _articleRepository.GetArticleStar(articleStarId);

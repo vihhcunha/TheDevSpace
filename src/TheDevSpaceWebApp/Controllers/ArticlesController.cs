@@ -48,7 +48,8 @@ public class ArticlesController : BaseController
     }
 
     [Authorize]
-    public async Task<IActionResult> MyArticles()
+    [HttpGet]
+    public async Task<IActionResult> MyArticles([FromQuery] string? search)
     {
         if (_authenticationService.IsWriter == false)
         {
@@ -56,18 +57,32 @@ public class ArticlesController : BaseController
             return View();
         }
 
-        var articles = await _articleService.GetArticlesByWriter(_authenticationService.WriterId.Value);
-        var articlesViewModel = articles.Select(a => new ArticleViewModel
+        List<ArticleDto> articles;
+        if (search == null)
         {
-            ArticleId = a.ArticleId,
-            Content = a.Content,
-            Description = a.Description,
-            Launch = a.Launch,
-            StarsCount = a.Stars.Count,
-            Title = a.Title,
-            WriterId = a.WriterId,
-            WriterName = a.Writer.User.Name
-        }).ToList();
+            articles = await _articleService.GetArticlesByWriter(_authenticationService.WriterId.Value);
+        }
+        else
+        {
+            articles = await _articleService.GetArticlesByWriter(_authenticationService.WriterId.Value, search);
+        }
+
+        var articlesViewModel = ArticleViewModel.ArticlesToArticlesViewModel(articles);
+        return View(articlesViewModel);
+    }
+
+    [HttpGet("Articles/Article/{articleId}")]
+    [Authorize]
+    public async Task<IActionResult> Article([FromRoute]Guid articleId)
+    {
+        var article = await _articleService.GetArticleWithStars(articleId);
+
+        if (article == null)
+        {
+            ModelState.AddModelError(string.Empty, "This article does not exists.");
+            return View();
+        }
+        var articlesViewModel = ArticleViewModel.ArticleToArticleViewModel(article);
         return View(articlesViewModel);
     }
 }

@@ -1,0 +1,53 @@
+﻿@using System.Globalization
+@using TheDevSpaceWebApp.Services
+@using TheDevSpaceWebApp.ViewModels.Article
+
+@inject IAuthenticationService authenticationService
+
+@model ArticleViewModel
+@{
+    ViewData["Title"] = "Article " + Model.Title;
+}
+
+<div class="padding-bottom-10px">
+    @if (Model.WriterId == authenticationService.WriterId.GetValueOrDefault())
+    {
+        <a asp-action="Edit" asp-controller="Articles" class="btn primary-color-button">
+            Edit article
+        </a>
+        <a asp-action="Edit" asp-controller="Articles" class="btn btn-danger">
+            Delete
+        </a>
+    }
+    <a asp-action="Star" asp-controller="Articles" class="btn btn-secondary">
+        <span class="material-symbols-outlined" style="vertical-align: text-bottom">
+            star
+        </span>
+    </a>
+</div>
+<div class="container default-container">
+    <h1 class="text-center">@Model.Title</h1>
+
+    <p style="font-size: 13px" class="text-center">
+        <span><strong> @Model.WriterName </strong></span> -
+        <i>@Model.Launch.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("en-US")) - </i>
+
+        <span class="material-symbols-outlined" style="vertical-align: text-bottom">
+            star
+        </span>
+        <span style="vertical-align: middle">
+            @Model.StarsCount
+        </span>
+    </p>
+
+    <div class="padding-top-20px padding-bottom-20px">
+        <h5 class="text-center">
+            @Model.Description
+        </h5>
+    </div>
+    <hr />
+
+    <div class="padding-top-20px">
+        @Html.Raw(Model.Content)
+    </div>
+</div>

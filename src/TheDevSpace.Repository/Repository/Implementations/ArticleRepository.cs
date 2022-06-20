@@ -43,7 +43,18 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
             .Include(a => a.Stars)
             .Include(a => a.Writer)
                 .ThenInclude(a => a.User)
-            .Where(a => a.WriterId == writerId).ToListAsync();
+            .Where(a => a.WriterId == writerId)
+            .ToListAsync();
+    }
+
+    public async Task<List<Article>> GetArticlesByWriter(Guid writerId, string search)
+    {
+        return await _context.Articles
+           .Include(a => a.Stars)
+           .Include(a => a.Writer)
+               .ThenInclude(a => a.User)
+           .Where(a => a.WriterId == writerId && a.Title.Contains(search))
+           .ToListAsync();
     }
 
     public async Task<ArticleStar> GetArticleStar(Guid articleStarId)
@@ -55,6 +66,8 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
     {
         return await _context.Articles
             .Include(a => a.Stars)
+            .Include(a => a.Writer)
+                .ThenInclude(w => w.User)
             .FirstOrDefaultAsync(a => a.ArticleId == articleId);
     }
 
