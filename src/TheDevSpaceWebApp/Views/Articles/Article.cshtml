@@ -9,26 +9,30 @@
     ViewData["Title"] = "Article " + Model.Title;
 }
 
-<div class="padding-bottom-10px">
-    @if (Model.WriterId == authenticationService.WriterId.GetValueOrDefault())
-    {
-        <a asp-action="Edit" asp-controller="Articles" asp-route-articleId="@Model.ArticleId" class="btn btn-primary">
-            <span class="material-symbols-outlined" style="vertical-align: text-bottom">
-                Edit
+@if (authenticationService.IsAuthenticated)
+{
+    <div class="padding-bottom-10px">
+
+        <a asp-action="GiveRemoveStar" asp-controller="Articles" asp-route-articleId="@Model.ArticleId" class="btn btn-primary">
+            <span class="material-symbols-outlined" style="vertical-align: text-bottom; @(Model.StarredByCurrentUser ? "color: #ffff5f" : "")">
+               @(Model.StarredByCurrentUser ? "star" : "grade")
             </span>
         </a>
-        <button data-bs-toggle="modal" data-bs-target="#modelShouldDeleteArticle" class="btn btn-danger">
-            <span class="material-symbols-outlined" style="vertical-align: text-bottom">
-                Delete
-            </span>
-        </button>
-    }
-    <a asp-action="Star" asp-controller="Articles" class="btn btn-secondary">
-        <span class="material-symbols-outlined" style="vertical-align: text-bottom">
-            star
-        </span>
-    </a>
-</div>
+        @if (Model.WriterId == authenticationService.WriterId.GetValueOrDefault())
+        {
+            <a asp-action="Edit" asp-controller="Articles" asp-route-articleId="@Model.ArticleId" class="btn btn-primary">
+                <span class="material-symbols-outlined" style="vertical-align: text-bottom">
+                    Edit
+                </span>
+            </a>
+            <button data-bs-toggle="modal" data-bs-target="#modelShouldDeleteArticle" class="btn btn-danger">
+                <span class="material-symbols-outlined" style="vertical-align: text-bottom">
+                    Delete
+                </span>
+            </button>
+        }
+    </div>
+}
 <div class="container default-container">
     <h1 class="text-center">@Model.Title</h1>
 

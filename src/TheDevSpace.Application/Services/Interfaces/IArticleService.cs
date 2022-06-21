@@ -8,9 +8,9 @@ public interface IArticleService
     Task<List<ArticleDto>> GetArticlesByWriter(Guid writerId);
     Task<List<ArticleDto>> GetArticlesByWriter(Guid writerId, string search);
     Task<List<ArticleDto>> SearchArticlesByTitle(string search);
-    Task AddStar(ArticleStarDto articleStarDto);
+    Task AddStar(Guid userId, Guid articleId);
     Task<ArticleDto> GetArticleWithStars(Guid articleId);
     Task<ArticleStarDto> GetArticleStar(Guid articleStarId);
     Task DeleteArticle(Guid articleId);
-    Task DeleteStar(Guid starId);
+    Task DeleteStar(Guid userId, Guid articleId);
 }

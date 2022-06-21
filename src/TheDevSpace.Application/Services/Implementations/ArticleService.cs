@@ -43,18 +43,18 @@ public class ArticleService : ServiceBase, IArticleService
         await _articleRepository.UnitOfWork.SaveChangesAsync();
     }
 
-    public async Task AddStar(ArticleStarDto articleStarDto)
+    public async Task AddStar(Guid userId, Guid articleId)
     {
-        if (articleStarDto == null) throw new ArgumentNullException(nameof(articleStarDto));
-
-        var article = await _articleRepository.GetArticleWithStars(articleStarDto.ArticleId);
+        var article = await _articleRepository.GetArticleWithStars(articleId);
         if (article == null)
         {
             Notificate("This article does not exists to give a star");
+            return;
         }
 
-        article.GiveStar(articleStarDto.UserId);
+        article.GiveStar(userId);
 
+        await _articleRepository.AddStar(article.Stars.LastOrDefault());
         await _articleRepository.UnitOfWork.SaveChangesAsync();
     }
 
@@ -64,9 +64,17 @@ public class ArticleService : ServiceBase, IArticleService
         await _articleRepository.UnitOfWork.SaveChangesAsync();
     }
 
-    public async Task DeleteStar(Guid starId)
+    public async Task DeleteStar(Guid userId, Guid articleId)
     {
-        await _articleRepository.DeleteStar(starId);
+        var star = await _articleRepository.GetArticleStarByArticleAndUser(userId, articleId);
+
+        if (star == null)
+        {
+            Notificate("This star does not exists!");
+            return;
+        }
+
+        await _articleRepository.DeleteStar(star);
         await _articleRepository.UnitOfWork.SaveChangesAsync();
     }
 

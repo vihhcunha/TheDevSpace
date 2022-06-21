@@ -129,8 +129,9 @@ public class ArticlesController : BaseController
             ModelState.AddModelError(string.Empty, "This article does not exists.");
             return View();
         }
-        var articlesViewModel = ArticleViewModel.ArticleToArticleViewModel(article);
-        return View(articlesViewModel);
+        var articleViewModel = ArticleViewModel.ArticleToArticleViewModel(article);
+        articleViewModel.StarredByCurrentUser = UserAlreadyHaveStarredThisArticle(articleId, article);
+        return View(articleViewModel);
     }
 
     [HttpGet("Articles/Delete/{articleId}")]
@@ -144,5 +145,29 @@ public class ArticlesController : BaseController
         AddValidationData();
 
         return RedirectToAction("MyArticles");
+    }
+
+    [HttpGet("Articles/GiveRemoveStar/{articleId}")]
+    [Authorize]
+    public async Task<IActionResult> GiveRemoveStar([FromRoute] Guid articleId)
+    {
+        if (articleId == Guid.Empty) return RedirectToAction("MyArticles");
+
+        var article = await _articleService.GetArticleWithStars(articleId);
+        if (UserAlreadyHaveStarredThisArticle(articleId, article))
+        {
+            await _articleService.DeleteStar(_authenticationService.UserId.GetValueOrDefault(), articleId);
+        }
+        else
+        {
+            await _articleService.AddStar(_authenticationService.UserId.GetValueOrDefault(), articleId);
+        }
+
+        return RedirectToAction("Article", new { articleId });
+    }
+
+    private bool UserAlreadyHaveStarredThisArticle(Guid articleId, ArticleDto article)
+    {
+        return article.Stars.Any(a => a.UserId == _authenticationService.UserId && a.ArticleId == articleId);
     }
 }

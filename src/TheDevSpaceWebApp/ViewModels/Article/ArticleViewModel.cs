@@ -12,6 +12,7 @@ public class ArticleViewModel
     public DateTime Launch { get; set; }
     public int StarsCount { get; set; }
     public string WriterName { get; set; }
+    public bool StarredByCurrentUser { get; set; }
 
     public static List<ArticleViewModel> ArticlesToArticlesViewModel(List<ArticleDto> articles)
     {

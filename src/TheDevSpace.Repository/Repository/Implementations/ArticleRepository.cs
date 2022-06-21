@@ -30,6 +30,11 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
         _context.ArticleStars.Remove(articleStar);
     }
 
+    public async Task DeleteStar(ArticleStar articleStar)
+    {
+        _context.ArticleStars.Remove(articleStar);
+    }
+
     public async Task<List<Article>> GetAllArticles()
     {
         return await _context.Articles
@@ -63,6 +68,11 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
     public async Task<ArticleStar> GetArticleStar(Guid articleStarId)
     {
         return await _context.ArticleStars.FindAsync(articleStarId);
+    }
+
+    public async Task<ArticleStar> GetArticleStarByArticleAndUser(Guid userId, Guid articleId)
+    {
+        return await _context.ArticleStars.FirstOrDefaultAsync(a => a.UserId == userId && a.ArticleId == articleId);
     }
 
     public async Task<Article> GetArticleWithStars(Guid articleId)
