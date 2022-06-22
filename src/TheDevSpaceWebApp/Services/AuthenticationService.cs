@@ -45,6 +45,10 @@ namespace TheDevSpaceWebApp.Services
         public async Task LoginAsync(Guid userId, string email, string name, Guid? writerId = null)
         {
             var httpContext = _contextAccessor.HttpContext;
+
+            if (httpContext.User.Identity.IsAuthenticated)
+                await httpContext.SignOutAsync();
+
             ClaimsIdentity claimsIdentity = BuildClaims(userId, email, name, writerId);
 
             var authProperties = new AuthenticationProperties
@@ -84,7 +88,13 @@ namespace TheDevSpaceWebApp.Services
 
         public void AddClaim(string key, string value)
         {
-            _contextAccessor.HttpContext.User.Claims.Append(new Claim(key, value));
+            var claims = new List<Claim>
+            {
+                new Claim(key, value)
+            };
+            var appIdentity = new ClaimsIdentity(claims);
+
+            _contextAccessor.HttpContext.User.AddIdentity(appIdentity);
         }
     }
 }

@@ -12,6 +12,6 @@ public class CreateEditArticleViewModel
 
     [Required(ErrorMessage = "You must set a description for this article!")]
     public string Description { get; set; }
-    public Guid WriterId { get; set; }
-    public Guid ArticleId { get; set; }
+    public Guid? WriterId { get; set; }
+    public Guid? ArticleId { get; set; }
 }

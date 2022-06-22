@@ -86,7 +86,7 @@ public class ArticlesController : BaseController
             Title = newArticleViewModel.Title,
             WriterId = _authenticationService.WriterId.Value,
             Description = newArticleViewModel.Description,
-            ArticleId = newArticleViewModel.ArticleId
+            ArticleId = newArticleViewModel.ArticleId.Value
         });
 
         if (IsInvalidOperation()) return View(newArticleViewModel);

@@ -26,7 +26,10 @@ public class UserService : ServiceBase, IUserService
         if (!ExecuteValidation(new UserValidation(), userDto)) return null;
 
         if (await _userRepository.GetUserByEmail(userDto.Email) != null)
+        {
             Notificate("This e-mail is in use. Choose another!");
+            return null;
+        }
 
         var passwordHash = _passwordHasher.HashPassword(userDto, userDto.Password);
         var user = new User(userDto.Email, passwordHash, userDto.Name);

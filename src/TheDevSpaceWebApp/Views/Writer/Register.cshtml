@@ -4,10 +4,6 @@
     ViewData["Title"] = "Register writer";
 }
 
-@section ToastsMessage{
-    @{ await Html.RenderPartialAsync("_ToastsMessages"); }
-}
-
 <div class="box-center">
     <h2 class="text-center">Register writer</h2>
     <form method="post">
@@ -24,7 +20,7 @@
             <span asp-validation-for="Role" class="text-danger"></span>
         </div>
         <div class="padding-top-30px padding-bottom-20px">
-            <button type="submit" class="btn primary-color-button width-100-perc">Register as a manager</button>
+            <button type="submit" class="btn primary-color-button width-100-perc">Register as a writer</button>
         </div>
     </form>
     <a asp-action="Index" asp-controller="Home" class="text-color-default">Cancel</a>

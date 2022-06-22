@@ -9,11 +9,13 @@ namespace TheDevSpaceWebApp.Controllers;
 public class WriterController : BaseController
 {
     private readonly IWriterService _writerService;
+    private readonly IUserService _userService;
     private readonly IAuthenticationService _authenticationService;
-    public WriterController(IValidationService validationService, IWriterService writerService, IAuthenticationService authenticationService) : base(validationService)
+    public WriterController(IValidationService validationService, IWriterService writerService, IAuthenticationService authenticationService, IUserService userService) : base(validationService)
     {
         _writerService = writerService;
         _authenticationService = authenticationService;
+        _userService = userService;
     }
 
     public IActionResult Register()
@@ -36,15 +38,22 @@ public class WriterController : BaseController
 
         if (IsInvalidOperation()) return View(registerWriterViewModel);
 
-        _authenticationService.AddClaim("WriterId", writer.WriterId.ToString());
+        var userDto = await _userService.GetUser(writer.UserId);
+        await _authenticationService.LoginAsync(userDto.UserId, userDto.Email, userDto.Name, writer.WriterId);
 
         return RedirectToAction("Index", "Home");
     }
 
-    [HttpGet("Writer/{writerId}")]
+    [HttpGet("Writer/Details/{writerId}")]
     public async Task<IActionResult> Details(Guid writerId)
     {
         var writer = await _writerService.GetWriterWithArticles(writerId);
+
+        if (writer == null)
+        {
+            ModelState.AddModelError(String.Empty, "This writer does not exists!");
+            return View(writer);
+        }
         var writerViewModel = WriterViewModel.WriterDtoToViewModel(writer);
         return View(writerViewModel);
     }

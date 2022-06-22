@@ -8,52 +8,74 @@
     Layout = null;
 }
 
-<div class="padding-top-60px">
-    <form method="get">
-        <div class="row g-3 align-items-center">
+@if (Model.Any())
+{
+    <div class="padding-top-60px">
+        <form method="get">
+            <div class="row g-3 align-items-center">
 
+                @if (authenticationService.IsWriter)
+                {
+                    <div class="col-auto">
+                        <a asp-action="Create" asp-controller="Articles" class="btn primary-color-button form-control">
+                            Add article
+                        </a>
+                    </div>
+                }
+                <div class="col-10 col-md-auto">
+                    <input type="text" name="search" class="input-dark form-control" placeholder="Search for articles..." />
+                </div>
+                <div class="col-2 col-md-auto">
+                    <button type="submit" class="btn btn-secondary">
+                        <span class="material-symbols-outlined" style="vertical-align: text-bottom">
+                            search
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        @foreach (var article in Model)
+        {
+            <div class="default-card">
+                <a asp-action="Article" asp-controller="Articles" asp-route-articleId="@article.ArticleId" class="link-title">@article.Title</a>
+
+                <p style="font-size: 14px">
+                    <i>@article.Launch.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("en-US"))</i>
+                    -
+                    <span class="material-symbols-outlined" style="vertical-align: text-bottom">
+                        star
+                    </span>
+                    <span style="vertical-align: middle">
+                        @article.StarsCount
+                    </span>
+                </p>
+                <div style="padding-left: 10px; padding-top: 10px">
+                    <p>
+                        @article.Description
+                        <br>
+                        <strong>Written by: </strong> <a asp-action="Details" asp-controller="Writer" asp-route-writerId="@article.WriterId" class="link-no-decoration">@article.WriterName </a>
+                    </p>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="padding-top-60px">
+        <hr>
+        <div class="padding-top-20px text-center">
+            <h3>
+                There are no articles here!
+            </h3>
             @if (authenticationService.IsWriter)
             {
-                <div class="col-auto">
-                    <a asp-action="Create" asp-controller="Articles" class="btn primary-color-button form-control">
+                <div class="padding-top-30px">
+                    <a asp-action="Create" asp-controller="Articles" class="btn primary-color-button">
                         Add article
                     </a>
                 </div>
             }
-            <div class="col-10 col-md-auto">
-                <input type="text" name="search" class="input-dark form-control" placeholder="Search for articles..." />
-            </div>
-            <div class="col-2 col-md-auto">
-                <button type="submit" class="btn btn-secondary">
-                    <span class="material-symbols-outlined" style="vertical-align: text-bottom">
-                        search
-                    </span>
-                </button>
-            </div>
         </div>
-    </form>
-    @foreach (var article in Model)
-    {
-        <div class="default-card">
-            <a asp-action="Article" asp-controller="Articles" asp-route-articleId="@article.ArticleId" class="link-title">@article.Title</a>
-
-            <p style="font-size: 14px">
-                <i>@article.Launch.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("en-US"))</i>
-                -
-                <span class="material-symbols-outlined" style="vertical-align: text-bottom">
-                    star
-                </span>
-                <span style="vertical-align: middle">
-                    @article.StarsCount
-                </span>
-            </p>
-            <div style="padding-left: 10px; padding-top: 10px">
-                <p>
-                    @article.Description
-                    <br>
-                    <strong>Written by: </strong> <a asp-action="Details" asp-controller="Writer" asp-route-writerId="@article.WriterId" class="link-no-decoration">@article.WriterName </a>
-                </p>
-            </div>
-        </div>
-    }
-</div>
+    </div>
+}
