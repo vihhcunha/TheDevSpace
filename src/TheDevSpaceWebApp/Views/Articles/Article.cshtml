@@ -9,6 +9,23 @@
     ViewData["Title"] = "Article " + Model.Title;
 }
 
+
+<div class="padding-top-60px padding-bottom-40px">
+    <h1 class="text-center">@Model.Title</h1>
+    <p style="font-size: 13px" class="text-center">
+
+        <a asp-action="Details" asp-controller="Writer" asp-route-writerId="@Model.WriterId" class="link-no-decoration"><strong> @Model.WriterName </strong></a> -
+        <i>@Model.Launch.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("en-US")) - </i>
+
+        <span class="material-symbols-outlined" style="vertical-align: text-bottom">
+            star
+        </span>
+        <span style="vertical-align: middle">
+            @Model.StarsCount
+        </span>
+    </p>
+</div>
+
 @if (authenticationService.IsAuthenticated)
 {
     <div class="padding-bottom-10px">
@@ -33,23 +50,6 @@
         }
     </div>
 }
-
-<div class="padding-top-60px padding-bottom-40px">
-    <h1 class="text-center">@Model.Title</h1>
-    <p style="font-size: 13px" class="text-center">
-
-        <span><strong> @Model.WriterName </strong></span> -
-        <i>@Model.Launch.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("en-US")) - </i>
-
-        <span class="material-symbols-outlined" style="vertical-align: text-bottom">
-            star
-        </span>
-        <span style="vertical-align: middle">
-            @Model.StarsCount
-        </span>
-    </p>
-</div>
-
 <div class="container default-container">
 
     <div class="padding-top-20px">

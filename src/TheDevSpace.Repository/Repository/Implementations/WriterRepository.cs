@@ -37,6 +37,7 @@ public class WriterRepository : Repository<Writer>, IWriterRepository
     {
         return await _context.Writers
             .Include(w => w.Articles)
+            .Include(w => w.User)
             .FirstOrDefaultAsync(w => w.WriterId == writerId);
     }
 }

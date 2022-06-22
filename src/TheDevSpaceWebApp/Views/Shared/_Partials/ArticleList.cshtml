@@ -51,7 +51,7 @@
                 <p>
                     @article.Description
                     <br>
-                    <strong>Written by: </strong> @article.WriterName
+                    <strong>Written by: </strong> <a asp-action="Details" asp-controller="Writer" asp-route-writerId="@article.WriterId" class="link-no-decoration">@article.WriterName </a>
                 </p>
             </div>
         </div>
