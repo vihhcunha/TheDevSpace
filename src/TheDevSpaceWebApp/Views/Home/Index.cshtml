@@ -1,8 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using System.Globalization
+@using TheDevSpaceWebApp.ViewModels.Article
+
+@model List<ArticleViewModel>
+@{
+    ViewData["Title"] = "Articles Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container padding-top-70px">
+    <h2 class="text-center">Technical Articles - Increase your knowledge!</h2>
+
+    <partial name="_Partials/ArticleList" model="Model"></partial>
 </div>

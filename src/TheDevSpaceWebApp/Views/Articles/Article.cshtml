@@ -15,7 +15,7 @@
 
         <a asp-action="GiveRemoveStar" asp-controller="Articles" asp-route-articleId="@Model.ArticleId" class="btn btn-primary">
             <span class="material-symbols-outlined" style="vertical-align: text-bottom; @(Model.StarredByCurrentUser ? "color: #ffff5f" : "")">
-               @(Model.StarredByCurrentUser ? "star" : "grade")
+                @(Model.StarredByCurrentUser ? "star" : "grade")
             </span>
         </a>
         @if (Model.WriterId == authenticationService.WriterId.GetValueOrDefault())
@@ -33,10 +33,11 @@
         }
     </div>
 }
-<div class="container default-container">
-    <h1 class="text-center">@Model.Title</h1>
 
+<div class="padding-top-60px padding-bottom-40px">
+    <h1 class="text-center">@Model.Title</h1>
     <p style="font-size: 13px" class="text-center">
+
         <span><strong> @Model.WriterName </strong></span> -
         <i>@Model.Launch.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("en-US")) - </i>
 
@@ -47,13 +48,9 @@
             @Model.StarsCount
         </span>
     </p>
+</div>
 
-    <div class="padding-top-20px padding-bottom-20px">
-        <h5 class="text-center">
-            @Model.Description
-        </h5>
-    </div>
-    <hr />
+<div class="container default-container">
 
     <div class="padding-top-20px">
         @Html.Raw(Model.Content)

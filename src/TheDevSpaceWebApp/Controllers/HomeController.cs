@@ -1,31 +1,32 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using TheDevSpaceWebApp.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using TheDevSpace.Application;
+using TheDevSpaceWebApp.ViewModels.Article;
 
 namespace TheDevSpaceWebApp.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly IArticleService _articleService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IArticleService articleService)
     {
-        _logger = logger;
+        _articleService = articleService;
     }
 
-    public IActionResult Index()
+    [HttpGet]
+    public async Task<IActionResult> Index([FromQuery] string? search)
     {
-        return View();
-    }
+        List<ArticleDto> articles;
+        if (search == null)
+        {
+            articles = await _articleService.GetAllArticles();
+        }
+        else
+        {
+            articles = await _articleService.SearchArticlesByTitle(search);
+        }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        var articlesViewModel = ArticleViewModel.ArticlesToArticlesViewModel(articles);
+        return View(articlesViewModel);
     }
 }

@@ -119,7 +119,6 @@ public class ArticlesController : BaseController
     }
 
     [HttpGet("Articles/Article/{articleId}")]
-    [Authorize]
     public async Task<IActionResult> Article([FromRoute]Guid articleId)
     {
         var article = await _articleService.GetArticleWithStars(articleId);

@@ -3,7 +3,7 @@ using TheDevSpace.Domain.Entities;
 
 namespace TheDevSpace.Repository.Repository;
 
-public class ArticleRepository : Repository<Article>, IArticleRepository 
+public class ArticleRepository : Repository<Article>, IArticleRepository
 {
     public ArticleRepository(TheDevSpaceContext context) : base(context) { }
 
@@ -39,6 +39,9 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
     {
         return await _context.Articles
             .AsNoTrackingWithIdentityResolution()
+            .Include(a => a.Stars)
+            .Include(a => a.Writer)
+               .ThenInclude(a => a.User)
             .OrderByDescending(a => a.Launch)
             .ToListAsync();
     }
@@ -88,6 +91,9 @@ public class ArticleRepository : Repository<Article>, IArticleRepository
     {
         return await _context.Articles
             .Where(a => a.Title.Contains(search))
+            .Include(a => a.Stars)
+            .Include(a => a.Writer)
+               .ThenInclude(a => a.User)
             .AsNoTrackingWithIdentityResolution()
             .OrderByDescending(a => a.Launch)
             .ToListAsync();

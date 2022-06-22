@@ -6,52 +6,8 @@
     ViewData["Title"] = "My articles";
 }
 
-<div class="container padding-top-40px">
+<div class="container padding-top-70px">
     <h2 class="text-center">My articles</h2>
 
-    <div class="padding-top-30px">
-        <form method="get">
-            <div class="row g-3 align-items-center">
-                <div class="col-auto">
-                    <a asp-action="Create" asp-controller="Articles" class="btn primary-color-button form-control">
-                        Add article
-                    </a>
-                </div>
-                <div class="col-10 col-md-auto">
-                    <input type="text" name="search" class="input-dark form-control" placeholder="Search for articles..." />
-                </div>
-                <div class="col-2 col-md-auto">
-                    <button type="submit" class="btn btn-secondary">
-                        <span class="material-symbols-outlined" style="vertical-align: text-bottom">
-                            search
-                        </span>
-                    </button>
-                </div>
-            </div>
-        </form>
-        @foreach (var article in Model)
-        {
-            <div class="default-card">
-                <a asp-action="Article" asp-controller="Articles" asp-route-articleId="@article.ArticleId" class="link-title">@article.Title</a>
-
-                <p style="font-size: 14px">
-                    <i>@article.Launch.ToString("MMMM dd, yyyy", CultureInfo.CreateSpecificCulture("en-USE"))</i>
-                    -
-                    <span class="material-symbols-outlined" style="vertical-align: text-bottom">
-                        star
-                    </span>
-                    <span style="vertical-align: middle">
-                        @article.StarsCount
-                    </span>
-                </p>
-                <div style="padding-left: 10px; padding-top: 10px">
-                    <p>
-                        @article.Description
-                        <br>
-                        <strong>Written by: </strong> @article.WriterName
-                    </p>
-                </div>
-            </div>
-        }
-    </div>
+    <partial name="_Partials/ArticleList" model="Model"></partial>
 </div>
