@@ -32,7 +32,7 @@ jobs:
         run: |
           dotnet tool install --global dotnet-ef
           dotnet tool restore
-          dotnet ef database update -s ${{env.DOTNET_ROOT}}/myapp/TheDevSpaceWebApp
+          dotnet ef database update -s /src/TheDevSpaceWebApp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
