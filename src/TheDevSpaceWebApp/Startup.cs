@@ -4,6 +4,7 @@ using TheDevSpace.Repository;
 using TheDevSpaceWebApp.DI;
 using TheDevSpace.Application;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using TheDevSpaceWebApp.Middlewares;
 
 namespace TheDevSpaceWebApp;
 
@@ -44,9 +45,10 @@ public class Startup
     {
         if (!env.IsDevelopment())
         {
-            app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
         }
+        app.UseCustomErrorHandling();
+        app.UseStatusCodePagesWithRedirects("/Error/{0}");
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
