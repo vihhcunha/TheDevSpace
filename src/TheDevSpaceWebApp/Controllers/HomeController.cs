@@ -16,8 +16,6 @@ public class HomeController : Controller
     [HttpGet]
     public async Task<IActionResult> Index([FromQuery] string? search)
     {
-        throw new Exception("aaaaa");
-
         List<ArticleDto> articles;
         if (search == null)
         {
