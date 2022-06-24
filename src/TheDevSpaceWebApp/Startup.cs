@@ -5,6 +5,7 @@ using TheDevSpaceWebApp.DI;
 using TheDevSpace.Application;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using TheDevSpaceWebApp.Middlewares;
+using Serilog;
 
 namespace TheDevSpaceWebApp;
 
@@ -47,6 +48,7 @@ public class Startup
         {
             app.UseHsts();
         }
+        app.UseSerilogRequestLogging();
         app.UseCustomErrorHandling();
         app.UseStatusCodePagesWithRedirects("/Error/{0}");
 

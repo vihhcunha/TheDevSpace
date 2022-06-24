@@ -17,6 +17,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="NewRelic.Agent" Version="9.9.0" />
+    <PackageReference Include="Sentry.AspNetCore" Version="3.18.0" />
+    <PackageReference Include="Sentry.Serilog" Version="3.18.0" />
+    <PackageReference Include="Serilog" Version="2.11.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
