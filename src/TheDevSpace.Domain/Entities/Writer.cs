@@ -31,6 +31,9 @@ public class Writer : Entity
 
     public override void Validate()
     {
+        if (Age <= 0)
+            throw new DomainException("You must set a valid age!");
+
         if (Description.IsNullOrEmpty())
             throw new DomainException("You must set a description!");
 
@@ -40,10 +43,10 @@ public class Writer : Entity
 
     public void UpdateData(int age, string role, string description)
     {
-        Validate();
-
         Age = age;
         Role = role;
         Description = description;
+
+        Validate();
     }
 }

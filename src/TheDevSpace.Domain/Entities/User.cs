@@ -50,7 +50,7 @@ public class User : Entity
 
     public void UpdateName(string name)
     {
-        if (Name.IsNullOrEmpty())
+        if (name.IsNullOrEmpty())
             throw new DomainException("You must set a name!");
 
         Name = name;

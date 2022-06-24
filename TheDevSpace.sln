@@ -1,33 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{386295B3-4CB4-4A92-88EA-89E713EBCB47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheDevSpace.Domain", "src\TheDevSpace.Domain\TheDevSpace.Domain.csproj", "{87797CD0-16F2-4D0F-AFAA-93D842A791BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDevSpace.Domain", "src\TheDevSpace.Domain\TheDevSpace.Domain.csproj", "{87797CD0-16F2-4D0F-AFAA-93D842A791BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheDevSpace.Application", "src\TheDevSpace.Application\TheDevSpace.Application.csproj", "{5790ADED-D50A-420B-A2EE-764991D1BB5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDevSpace.Application", "src\TheDevSpace.Application\TheDevSpace.Application.csproj", "{5790ADED-D50A-420B-A2EE-764991D1BB5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheDevSpace.Repository", "src\TheDevSpace.Repository\TheDevSpace.Repository.csproj", "{D0DC3E43-822C-4509-9BD6-3F5252CD9812}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDevSpace.Repository", "src\TheDevSpace.Repository\TheDevSpace.Repository.csproj", "{D0DC3E43-822C-4509-9BD6-3F5252CD9812}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheDevSpaceWebApp", "src\TheDevSpaceWebApp\TheDevSpaceWebApp.csproj", "{C0DC20C7-BD82-45E0-94BF-0170E438BB41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDevSpaceWebApp", "src\TheDevSpaceWebApp\TheDevSpaceWebApp.csproj", "{C0DC20C7-BD82-45E0-94BF-0170E438BB41}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D668CE04-E64D-446F-BF87-DB4E663CA20B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheDevSpaceTests.Application", "tests\TheDevSpaceTests.Application\TheDevSpaceTests.Application.csproj", "{3B936B30-42F4-4D10-B2F0-75281B9A62E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDevSpaceTests.Automated", "tests\TheDevSpaceTests.Automated\TheDevSpaceTests.Automated.csproj", "{95E83489-41CE-44AA-BFAC-C012713FE84E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheDevSpaceTests.Automated", "tests\TheDevSpaceTests.Automated\TheDevSpaceTests.Automated.csproj", "{95E83489-41CE-44AA-BFAC-C012713FE84E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheDevSpaceTests.Domain", "tests\TheDevSpaceTests.Domain\TheDevSpaceTests.Domain.csproj", "{4D99E418-671F-4AF5-B3FA-76254DE66E6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDevSpaceTests.Domain", "tests\TheDevSpaceTests.Domain\TheDevSpaceTests.Domain.csproj", "{4D99E418-671F-4AF5-B3FA-76254DE66E6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{87797CD0-16F2-4D0F-AFAA-93D842A791BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -46,10 +41,6 @@ Global
 		{C0DC20C7-BD82-45E0-94BF-0170E438BB41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0DC20C7-BD82-45E0-94BF-0170E438BB41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0DC20C7-BD82-45E0-94BF-0170E438BB41}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B936B30-42F4-4D10-B2F0-75281B9A62E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B936B30-42F4-4D10-B2F0-75281B9A62E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B936B30-42F4-4D10-B2F0-75281B9A62E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B936B30-42F4-4D10-B2F0-75281B9A62E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{95E83489-41CE-44AA-BFAC-C012713FE84E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{95E83489-41CE-44AA-BFAC-C012713FE84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95E83489-41CE-44AA-BFAC-C012713FE84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,13 +50,18 @@ Global
 		{4D99E418-671F-4AF5-B3FA-76254DE66E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D99E418-671F-4AF5-B3FA-76254DE66E6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{87797CD0-16F2-4D0F-AFAA-93D842A791BC} = {386295B3-4CB4-4A92-88EA-89E713EBCB47}
 		{5790ADED-D50A-420B-A2EE-764991D1BB5F} = {386295B3-4CB4-4A92-88EA-89E713EBCB47}
 		{D0DC3E43-822C-4509-9BD6-3F5252CD9812} = {386295B3-4CB4-4A92-88EA-89E713EBCB47}
 		{C0DC20C7-BD82-45E0-94BF-0170E438BB41} = {386295B3-4CB4-4A92-88EA-89E713EBCB47}
-		{3B936B30-42F4-4D10-B2F0-75281B9A62E5} = {D668CE04-E64D-446F-BF87-DB4E663CA20B}
 		{95E83489-41CE-44AA-BFAC-C012713FE84E} = {D668CE04-E64D-446F-BF87-DB4E663CA20B}
 		{4D99E418-671F-4AF5-B3FA-76254DE66E6D} = {D668CE04-E64D-446F-BF87-DB4E663CA20B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5A5B2974-396E-4E8B-A200-E80145135EB7}
 	EndGlobalSection
 EndGlobal
