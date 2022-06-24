@@ -34,7 +34,7 @@ jobs:
             dotnet tool install dotnet-ef
             
       - name: Generate scripts
-        run: dotnet ef migrations script --output ${{env.DOTNET_ROOT}}/sql/sql-script.sql --idempotent --context TheDevSpaceContext
+        run: dotnet ef migrations script --output ${{env.DOTNET_ROOT}}/sql/sql-script.sql --idempotent --context TheDevSpaceContext --startup-project /src/TheDevSpaceWebApp
 
       - name: Azure SQL Deploy
         uses: Azure/sql-action@v1.3
