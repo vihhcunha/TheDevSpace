@@ -42,6 +42,12 @@ jobs:
           server-name: tcp:thedevspacedb.database.windows.net
           connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
           sql-file: ${{env.DOTNET_ROOT}}/sql/sql-script.sql
+          
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: ubuntu-latest
