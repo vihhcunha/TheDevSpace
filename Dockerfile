@@ -6,6 +6,7 @@ COPY ["src/TheDevSpace.Domain/TheDevSpace.Domain.csproj", "src/TheDevSpace.Domai
 COPY ["src/TheDevSpace.Application/TheDevSpace.Application.csproj", "src/TheDevSpace.Application/"]
 RUN dotnet restore "src/TheDevSpaceWebApp/TheDevSpaceWebApp.csproj"
 COPY . .
+RUN dotnet test
 RUN dotnet publish -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
