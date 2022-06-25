@@ -19,7 +19,7 @@ public class ArticleTests
         var writerId = Guid.NewGuid();
 
         //Act
-        var article = new Article(title, content, writerId, "");
+        var article = new Article(title, content, writerId, description);
 
         // Assert
         Assert.IsType<Guid>(article.ArticleId);
