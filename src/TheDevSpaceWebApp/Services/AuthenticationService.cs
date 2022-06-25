@@ -37,7 +37,7 @@ namespace TheDevSpaceWebApp.Services
         {
             get
             {
-                if (IsAuthenticated == false) return null;
+                if (IsAuthenticated == false || IsWriter == false) return null;
                 return Guid.Parse(_contextAccessor.HttpContext.User.FindFirstValue(claimType: "WriterId"));
             }
         }
