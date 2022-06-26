@@ -35,14 +35,8 @@ public class Startup
 
         if (env.IsProduction())
         {
-            var connectionStringBlob = config.GetValue<string>("BlobStorage:ConnectionString");
-            var containerName = config.GetValue<string>("BlobStorage:ContainerName");
-
-            var blobServiceClient = new BlobContainerClient(connectionStringBlob, containerName);
-            blobServiceClient.CreateIfNotExists();
-
             services.AddDataProtection()
-                .PersistKeysToAzureBlobStorage(connectionStringBlob, containerName, "keys.xml");
+                .PersistKeysToAzureBlobStorage(new Uri(config.GetValue<string>("BlobStorageDataProtectionUrl")));
         }
 
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
