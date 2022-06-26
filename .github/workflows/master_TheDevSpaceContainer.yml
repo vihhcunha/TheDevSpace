@@ -32,6 +32,7 @@ jobs:
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_c2e0157d3aa147b680fe690b23616df3 }}/thedevspace:${{ github.sha }}
         file: ./Dockerfile
+        build-args: LICENSE_KEY=${{ secrets.LICENSE_KEY }}
         
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
