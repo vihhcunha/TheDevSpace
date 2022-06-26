@@ -9,6 +9,8 @@ COPY . .
 RUN dotnet test
 RUN dotnet publish -c Release -o out
 
+ARG LICENSE_KEY
+
 # Install the agent
 RUN apt-get update && apt-get install -y wget ca-certificates gnupg \
 && echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/sources.list.d/newrelic.list \
@@ -18,13 +20,13 @@ RUN apt-get update && apt-get install -y wget ca-certificates gnupg \
 && apt-get install -y newrelic-netcore20-agent \
 && rm -rf /var/lib/apt/lists/*
 
-ARG LICENSE_KEY
+# Enable the agent
 ENV CORECLR_ENABLE_PROFILING=1 \
 CORECLR_PROFILER={36032161-FFC0-4B61-B559-F6C5D41BAE5A} \
 CORECLR_NEWRELIC_HOME=/usr/local/newrelic-netcore20-agent \
 CORECLR_PROFILER_PATH=/usr/local/newrelic-netcore20-agent/libNewRelicProfiler.so \
 NEW_RELIC_LICENSE_KEY=$LICENSE_KEY \
-NEW_RELIC_APP_NAME=TheDevSpace
+NEW_RELIC_APP_NAME=TheDevSpaceWebApp
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
