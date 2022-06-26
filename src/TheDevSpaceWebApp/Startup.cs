@@ -35,6 +35,7 @@ public class Startup
             {
                 opt.AccessDeniedPath = "/Auth/Login";
                 opt.LoginPath = "/Auth/Login";
+                opt.Cookie.Name = "TheDevSpaceAuth";
             });
 
         services.AddAutoMapper(typeof(MapperProfile));
