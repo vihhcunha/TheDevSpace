@@ -36,7 +36,7 @@ namespace TheDevSpaceWebApp.Controllers
 
             if (IsInvalidOperation() || userDto == null) return View(loginViewModel);
 
-            await _authenticationService.LoginAsync(userDto.UserId, userDto.Email, userDto.Name, userDto.Writer.WriterId);
+            await _authenticationService.LoginAsync(userDto.UserId, userDto.Email, userDto.Name, userDto.Writer?.WriterId);
 
             return RedirectToAction("Index", "Home");
         }
