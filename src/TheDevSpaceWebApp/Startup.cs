@@ -6,12 +6,15 @@ using TheDevSpace.Application;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using TheDevSpaceWebApp.Middlewares;
 using Serilog;
+using Azure.Identity;
+using Microsoft.AspNetCore.DataProtection;
+using Azure.Storage.Blobs;
 
 namespace TheDevSpaceWebApp;
 
 public class Startup
 {
-    public void ConfigureServices(IServiceCollection services, IConfiguration config)
+    public void ConfigureServices(IServiceCollection services, IConfiguration config, IWebHostEnvironment env)
     {
         var connectionString = config.GetConnectionString("TheDevSpaceConnectionString");
 
@@ -29,6 +32,18 @@ public class Startup
             c.LogTo(Console.WriteLine);
             c.EnableDetailedErrors();
         });
+
+        if (env.IsProduction())
+        {
+            var connectionStringBlob = config.GetValue<string>("BlobStorage:ConnectionString");
+            var containerName = config.GetValue<string>("BlobStorage:ContainerName");
+
+            var blobServiceClient = new BlobContainerClient(connectionStringBlob, containerName);
+            blobServiceClient.CreateIfNotExists();
+
+            services.AddDataProtection()
+                .PersistKeysToAzureBlobStorage(connectionStringBlob, containerName, "keys.xml");
+        }
 
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(opt =>

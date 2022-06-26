@@ -22,7 +22,7 @@ try
     builder.Host.UseSerilog();
 
     var startup = new Startup();
-    startup.ConfigureServices(builder.Services, builder.Configuration);
+    startup.ConfigureServices(builder.Services, builder.Configuration, builder.Environment);
 
     var app = builder.Build();
     startup.Configure(app, builder.Environment);
