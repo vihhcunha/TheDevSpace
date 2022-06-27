@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using TheDevSpace.Application;
 using TheDevSpace.Application.ValidationService;
 using TheDevSpaceWebApp.Services;
@@ -11,10 +12,13 @@ public class ArticlesController : BaseController
 {
     private readonly IArticleService _articleService;
     private readonly IAuthenticationService _authenticationService;
-    public ArticlesController(IValidationService validationService, IArticleService articleService, IAuthenticationService authenticationService) : base(validationService)
+    private readonly IDistributedCache _cache;
+
+    public ArticlesController(IValidationService validationService, IArticleService articleService, IAuthenticationService authenticationService, IDistributedCache cache) : base(validationService)
     {
         _articleService = articleService;
         _authenticationService = authenticationService;
+        _cache = cache;
     }
 
     [Authorize()]
@@ -43,6 +47,8 @@ public class ArticlesController : BaseController
         });
 
         if (IsInvalidOperation()) return View(newArticleViewModel);
+
+        await _cache.RemoveAsync("Articles");
 
         return RedirectToAction("Index", "Home");
     }
@@ -90,6 +96,8 @@ public class ArticlesController : BaseController
         });
 
         if (IsInvalidOperation()) return View(newArticleViewModel);
+
+        await _cache.RemoveAsync("Articles");
 
         return RedirectToAction("Article", "Articles", new { articleId = newArticleViewModel.ArticleId });
     }
@@ -142,6 +150,8 @@ public class ArticlesController : BaseController
         await _articleService.DeleteArticle(articleId);
 
         AddValidationData();
+
+        await _cache.RemoveAsync("Articles");
 
         return RedirectToAction("MyArticles");
     }

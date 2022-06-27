@@ -22,6 +22,12 @@ public class Startup
         services.UseCustomHashPasswordBuilder()
             .UseArgon2<UserDto>();
 
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = config.GetConnectionString("Redis");
+            options.InstanceName = "thedevspace";
+        });
+
         services.AddDbContext<TheDevSpaceContext>(c =>
         {
             c.UseSqlServer(connectionString,
