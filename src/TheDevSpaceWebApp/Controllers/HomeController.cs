@@ -39,7 +39,10 @@ public class HomeController : Controller
 
         var articlesViewModel = ArticleViewModel.ArticlesToArticlesViewModel(articles);
         var articlesViewModelJson = JsonSerializer.Serialize(articlesViewModel);
-        await _cache.SetStringAsync("Articles", articlesViewModelJson);
+        await _cache.SetStringAsync("Articles", articlesViewModelJson, new DistributedCacheEntryOptions
+        {
+            SlidingExpiration = TimeSpan.FromMinutes(5)
+        });
         return View(articlesViewModel);
     }
 }
