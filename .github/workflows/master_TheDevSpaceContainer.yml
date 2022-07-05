@@ -79,6 +79,26 @@ jobs:
             publish-profile: ${{ secrets.AzureAppService_PublishProfile_c163f4de727c483ab4945d162b14a219 }}
             images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_9978c5d7be094409991fae15c83f852b }}/thedevspace:${{ github.sha }}'
 
+  automated-tests:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Google Chrome 
+      run: |
+              chmod +x ./scripts/InstallChrome.sh
+                          ./scripts/InstallChrome.sh 
+        
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: true
+
+    - name: Run tests
+      run: dotnet test tests/TheDevSpaceTests.Automated
+
   deploy:
     runs-on: ubuntu-latest
     needs: deploy-staging
