@@ -75,7 +75,7 @@ jobs:
           uses: azure/webapps-deploy@v2
           with:
             app-name: 'TheDevSpace-Staging'
-            slot-name: 'staging'
+            slot-name: 'production'
             publish-profile: ${{ secrets.AzureAppService_PublishProfile_c163f4de727c483ab4945d162b14a219 }}
             images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_9978c5d7be094409991fae15c83f852b }}/thedevspace:${{ github.sha }}'
 
