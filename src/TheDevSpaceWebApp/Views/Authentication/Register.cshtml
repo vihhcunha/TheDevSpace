@@ -25,7 +25,7 @@
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="padding-top-30px padding-bottom-20px">
-                <button type="button" class="btn primary-color-button width-100-perc" data-bs-toggle="modal" data-bs-target="#modalShouldRedirectToRegisterWriter">
+                <button type="button" class="btn primary-color-button width-100-perc" data-bs-toggle="modal" data-bs-target="#modalShouldRedirectToRegisterWriter" id="Register_Submit">
                     Register
                 </button>
             </div>
@@ -69,8 +69,8 @@
                     Do you want register yourself as a writer?
                 </div>
                 <div class="modal-footer border-top-grey">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="register()">No, I don't</button>
-                    <button type="button" class="btn btn-primary" onclick="registerAndRedirectToWriter()">Yes, I do!</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="register()" id="register_button">No, I don't</button>
+                    <button type="button" class="btn btn-primary" onclick="registerAndRedirectToWriter()" id="register_as_writer_button">Yes, I do!</button>
                 </div>
             </div>
         </div>
