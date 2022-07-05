@@ -6,7 +6,7 @@ COPY ["src/TheDevSpace.Domain/TheDevSpace.Domain.csproj", "src/TheDevSpace.Domai
 COPY ["src/TheDevSpace.Application/TheDevSpace.Application.csproj", "src/TheDevSpace.Application/"]
 RUN dotnet restore "src/TheDevSpaceWebApp/TheDevSpaceWebApp.csproj"
 COPY . .
-RUN dotnet test
+RUN dotnet test tests/TheDevSpaceTests.Domain
 RUN dotnet publish -c Release -o out
 
 ARG LICENSE_KEY
