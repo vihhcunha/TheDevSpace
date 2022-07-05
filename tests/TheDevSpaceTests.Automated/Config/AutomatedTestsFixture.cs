@@ -14,7 +14,7 @@ public class AutomationWebTestsFixture
     public AutomationWebTestsFixture()
     {
         Configuration = new ConfigurationHelper();
-        _helper = new SeleniumHelper(Configuration, false);
+        _helper = new SeleniumHelper(Configuration, true);
     }
 
     public void AccessLoginPage()

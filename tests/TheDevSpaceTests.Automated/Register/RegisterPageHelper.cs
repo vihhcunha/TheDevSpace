@@ -99,9 +99,9 @@ internal class RegisterPageHelper
         return _helper.GetElementByXPath(SpanConfirmPasswordXPath).Text;
     }
 
-    public string GetMessageToast()
+    public bool ExistSomeToastMessage()
     {
-        return _helper.GetElementByXPath(ToastMessageXPath).Text;
+        return _helper.CheckIfElementExistsByXPath(ToastMessageXPath);
     }
 
     public void Register()
@@ -113,7 +113,7 @@ internal class RegisterPageHelper
         FillConfirmPasswordField(_helper.Configuration.PasswordTest);
         PressSubmitButton();
 
-        if (String.IsNullOrEmpty(GetMessageToast())) return;
+        if (ExistSomeToastMessage() == false) return;
 
         var faker = new Bogus.Faker();
         var email = faker.Internet.Email();
@@ -134,7 +134,7 @@ internal class RegisterPageHelper
         FillConfirmPasswordField(_helper.Configuration.PasswordTest);
         PressSubmitAsWriterButton();
 
-        if (String.IsNullOrEmpty(GetMessageToast())) return;
+        if (ExistSomeToastMessage() == false) return;
 
         var faker = new Bogus.Faker();
         var email = faker.Internet.Email();

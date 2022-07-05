@@ -130,6 +130,11 @@ internal class SeleniumHelper
         return ElementExits(By.Id(id));
     }
 
+    public bool CheckIfElementExistsByXPath(string xpath)
+    {
+        return ElementExits(By.XPath(xpath));
+    }
+
     public bool SearchIfTextExistsInTable(string text, string xPathTable)
     {
         var table = Wait.Until(ExpectedConditions.ElementExists(By.XPath(xPathTable)));
