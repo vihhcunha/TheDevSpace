@@ -1,0 +1,60 @@
+name: Trigger auto deployment for the-dev-space
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ master ]
+    paths:
+    - '**'
+    - '.github/workflows/the-dev-space-AutoDeployTrigger-9e52ed2c-e85e-4249-bc1c-34dbe08334d0.yml'
+
+  # Allow mannually trigger 
+  workflow_dispatch:      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to container registry
+        uses: docker/login-action@v1
+        with:
+          registry: hub.docker.com
+          username: ${{ secrets.THEDEVSPACE_REGISTRY_USERNAME }}
+          password: ${{ secrets.THEDEVSPACE_REGISTRY_PASSWORD }}
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: hub.docker.com/the-dev-space:${{ github.sha }}
+          file: ./Dockerfile
+          context: ./
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.THEDEVSPACE_AZURE_CREDENTIALS }}
+
+
+      - name: Deploy to containerapp
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp registry set -n the-dev-space -g TestPurpose --server hub.docker.com --username  ${{ secrets.THEDEVSPACE_REGISTRY_USERNAME }} --password ${{ secrets.THEDEVSPACE_REGISTRY_PASSWORD }}
+            az containerapp update -n the-dev-space -g TestPurpose --image hub.docker.com/the-dev-space:${{ github.sha }}
