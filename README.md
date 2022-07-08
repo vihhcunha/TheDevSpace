@@ -1,5 +1,5 @@
 # The Dev Space
-## What this project does?
+## What does this project do?
 Here you can write great technical or non-technical articles, about the dev world. Register yourself, become a writer, and write nice articles for the world!
 If you just want to enjoy the article, feel free, and get a lot of free knowledge!
 
