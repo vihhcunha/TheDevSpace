@@ -56,5 +56,5 @@ jobs:
         with:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp registry set -n the-dev-space -g TestPurpose --server hub.docker.com --username  ${{ secrets.THEDEVSPACE_REGISTRY_USERNAME }} --password ${{ secrets.THEDEVSPACE_REGISTRY_PASSWORD }}
-            az containerapp update -n the-dev-space -g TestPurpose --image hub.docker.com/the-dev-space:${{ github.sha }}
+            az containerapp registry set -n the-dev-space -g TestPurpose --server index.docker.io --username  ${{ secrets.THEDEVSPACE_REGISTRY_USERNAME }} --password ${{ secrets.THEDEVSPACE_REGISTRY_PASSWORD }}
+            az containerapp update -n the-dev-space -g TestPurpose --image index.docker.io/vihhcunha/thedevspace:${{ github.sha }}
